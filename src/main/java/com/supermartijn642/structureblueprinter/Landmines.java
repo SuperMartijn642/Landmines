@@ -59,8 +59,6 @@ public class Landmines {
 
         @SubscribeEvent
         public static void onGatherData(GatherDataEvent e){
-            e.getGenerator().addProvider(new LandmineBlockModelProvider(e));
-            e.getGenerator().addProvider(new LandmineItemModelProvider(e));
             e.getGenerator().addProvider(new LandmineBlockStateProvider(e));
             e.getGenerator().addProvider(new LandmineLanguageProvider(e));
             e.getGenerator().addProvider(new LandmineLootTableProvider(e));

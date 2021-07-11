@@ -19,6 +19,8 @@ public class LandmineBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels(){
+        new LandmineBlockModelProvider(this.models()::withExistingParent, this.models()::withExistingParent).registerModels();
+        new LandmineItemModelProvider(this.models()::withExistingParent, this.models()::withExistingParent).registerModels();
         for(LandmineType type : LandmineType.values())
             this.addLandmineTypeBlockStates(type);
     }

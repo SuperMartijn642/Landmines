@@ -3,7 +3,8 @@ package com.supermartijn642.structureblueprinter;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.monster.BlazeEntity;
+import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -46,10 +47,10 @@ public interface LandmineEffect {
             boolean isWater = potion == Potions.WATER && mobEffects.isEmpty();
             if(isWater){ // water potion
                 AxisAlignedBB area = new AxisAlignedBB(pos).inflate(4, 2, 4);
-                List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area, LivingEntity::isSensitiveToWater);
+                List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area, entity -> entity instanceof EndermanEntity || entity instanceof BlazeEntity);
                 for(LivingEntity entity : entities){
                     double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
-                    if(distance < 16 && entity.isSensitiveToWater())
+                    if(distance < 16 && (entity instanceof EndermanEntity || entity instanceof BlazeEntity))
                         entity.hurt(DamageSource.indirectMagic(entity, null), 1);
                 }
             }else if(!mobEffects.isEmpty()){
@@ -122,7 +123,7 @@ public interface LandmineEffect {
                         }
 
                         if(entity.randomTeleport(teleportX, teleportY, teleportZ, true)){
-                            SoundEvent soundevent = entity instanceof FoxEntity ? SoundEvents.FOX_TELEPORT : SoundEvents.CHORUS_FRUIT_TELEPORT;
+                            SoundEvent soundevent = SoundEvents.CHORUS_FRUIT_TELEPORT;
                             world.playSound(null, entityX, entityY, entityZ, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);
                             entity.playSound(soundevent, 1.0F, 1.0F);
                             break;

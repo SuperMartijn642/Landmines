@@ -31,7 +31,7 @@ public class LandmineRenderer extends TileEntityRenderer<LandmineTileEntity> {
         if(tileEntity.getState() != LandmineTileEntity.LandmineState.UNARMED)
             state = state.setValue(LandmineBlock.ON, (tileEntity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
         IBakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), renderTypeBuffer.getBuffer(RenderTypeLookup.getRenderType(state, false)), state, model, 0, 0, 0, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), renderTypeBuffer.getBuffer(RenderTypeLookup.getRenderType(state)), state, model, 0, 0, 0, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 
         matrixStack.popPose();
     }

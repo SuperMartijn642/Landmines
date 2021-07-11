@@ -6,8 +6,8 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
@@ -71,12 +71,12 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context){
-        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+        IFluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
         return this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
     }
 
     @Override
-    public FluidState getFluidState(BlockState state){
+    public IFluidState getFluidState(BlockState state){
         return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
@@ -107,13 +107,13 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult){
         TileEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof LandmineTileEntity)
-            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand) ? ActionResultType.sidedSuccess(world.isClientSide) : ActionResultType.FAIL;
+            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand) ? world.isClientSide ? ActionResultType.SUCCESS : ActionResultType.CONSUME : ActionResultType.FAIL;
         return super.use(state, world, pos, player, hand, rayTraceResult);
     }
 
     @Override
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean p_196243_5_){
-        if(!state.is(newState.getBlock())){
+        if(state.getBlock() != newState.getBlock()){
             TileEntity tileEntity = world.getBlockEntity(pos);
             if(tileEntity instanceof LandmineTileEntity)
                 InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), ((LandmineTileEntity)tileEntity).getStack());
@@ -128,7 +128,7 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context){
+    public VoxelShape getOcclusionShape(BlockState state, IBlockReader world, BlockPos pos){
         return BlockShape.empty().getUnderlying();
     }
 }

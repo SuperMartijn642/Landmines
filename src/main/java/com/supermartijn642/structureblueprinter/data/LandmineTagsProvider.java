@@ -1,9 +1,9 @@
 package com.supermartijn642.structureblueprinter.data;
 
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
 /**
@@ -12,11 +12,11 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 public class LandmineTagsProvider extends ItemTagsProvider {
 
     public LandmineTagsProvider(GatherDataEvent e){
-        super(e.getGenerator(), new BlockTagsProvider(e.getGenerator()), "landmines", e.getExistingFileHelper());
+        super(e.getGenerator());
     }
 
     @Override
     protected void addTags(){
-        this.tag(ItemTags.bind("landmines:stone_pressure_plates")).add(Items.STONE_PRESSURE_PLATE, Items.POLISHED_BLACKSTONE_PRESSURE_PLATE);
+        this.tag(new ItemTags.Wrapper(new ResourceLocation("landmines", "stone_pressure_plates"))).add(Items.STONE_PRESSURE_PLATE);
     }
 }
