@@ -19,8 +19,8 @@ public class LandmineBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels(){
-        new LandmineBlockModelProvider(this.models()::withExistingParent, this.models()::withExistingParent).registerModels();
-        new LandmineItemModelProvider(this.models()::withExistingParent, this.models()::withExistingParent).registerModels();
+        new LandmineBlockModelProvider(this::withExistingParent, this::withExistingParent).registerModels();
+        new LandmineItemModelProvider(this::withExistingParent, this::withExistingParent).registerModels();
         for(LandmineType type : LandmineType.values())
             this.addLandmineTypeBlockStates(type);
     }
@@ -29,8 +29,8 @@ public class LandmineBlockStateProvider extends BlockStateProvider {
         this.getVariantBuilder(type.getBlock()).forAllStatesExcept(
             state -> new ConfiguredModel[]{
                 state.getValue(LandmineBlock.ON) ?
-                    new ConfiguredModel(this.models().getExistingFile(new ResourceLocation("landmines","block/types/" + type.getSuffix() + "_landmine_on"))) :
-                    new ConfiguredModel(this.models().getExistingFile(new ResourceLocation("landmines","block/types/" + type.getSuffix() + "_landmine_off")))
+                    new ConfiguredModel(this.getExistingFile(new ResourceLocation("landmines", "block/types/" + type.getSuffix() + "_landmine_on"))) :
+                    new ConfiguredModel(this.getExistingFile(new ResourceLocation("landmines", "block/types/" + type.getSuffix() + "_landmine_off")))
             },
             BlockStateProperties.WATERLOGGED
         );

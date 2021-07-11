@@ -14,8 +14,7 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent e){
-        for(LandmineType type : LandmineType.values())
-            ClientRegistry.bindTileEntityRenderer(type.getTileEntityType(), LandmineRenderer::new);
+        ClientRegistry.bindTileEntitySpecialRenderer(LandmineTileEntity.class, new LandmineRenderer());
     }
 
 }

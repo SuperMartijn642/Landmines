@@ -49,7 +49,7 @@ public interface LandmineEffect {
                 AxisAlignedBB area = new AxisAlignedBB(pos).inflate(4, 2, 4);
                 List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area, entity -> entity instanceof EndermanEntity || entity instanceof BlazeEntity);
                 for(LivingEntity entity : entities){
-                    double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
+                    double distance = area.getCenter().distanceToSqr(entity.position().x, entity.position().y, entity.position().z);
                     if(distance < 16 && (entity instanceof EndermanEntity || entity instanceof BlazeEntity))
                         entity.hurt(DamageSource.indirectMagic(entity, null), 1);
                 }
@@ -76,7 +76,7 @@ public interface LandmineEffect {
                     List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area);
                     for(LivingEntity entity : entities){
                         if(entity.isAffectedByPotions()){
-                            double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
+                            double distance = area.getCenter().distanceToSqr(entity.position().x, entity.position().y, entity.position().z);
                             if(distance < 16){
                                 double closenessFactor = 1 - Math.sqrt(distance) / 4;
 
@@ -110,14 +110,14 @@ public interface LandmineEffect {
         if(!world.isClientSide){
             world.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos).inflate(0.7))
                 .forEach(entity -> {
-                    double entityX = entity.getX();
-                    double entityY = entity.getY();
-                    double entityZ = entity.getZ();
+                    double entityX = entity.position().x;
+                    double entityY = entity.position().y;
+                    double entityZ = entity.position().z;
 
                     for(int i = 0; i < 16; ++i){
-                        double teleportX = entity.getX() + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
-                        double teleportY = MathHelper.clamp(entity.getY() + (double)(world.getRandom().nextInt(16) - 8), 0.0D, world.getHeight() - 1);
-                        double teleportZ = entity.getZ() + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
+                        double teleportX = entity.position().x + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
+                        double teleportY = MathHelper.clamp(entity.position().y + (double)(world.getRandom().nextInt(16) - 8), 0.0D, world.getHeight() - 1);
+                        double teleportZ = entity.position().z + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
                         if(entity.isPassenger()){
                             entity.stopRiding();
                         }

@@ -45,7 +45,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
         if(this.state == LandmineState.UNARMED){
             ItemStack stack = player.getItemInHand(hand);
             if(stack.isEmpty()){
-                if(player.isCrouching()){
+                if(player.isSneaking()){
                     if(this.type.itemFilter == null || !this.stack.isEmpty()){
                         this.updateState(LandmineState.ARMED);
                         this.cooldown = LandminesConfig.activationDelay.get();

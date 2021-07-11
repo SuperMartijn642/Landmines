@@ -15,7 +15,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -104,10 +103,10 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult){
+    public boolean use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult){
         TileEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof LandmineTileEntity)
-            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand) ? world.isClientSide ? ActionResultType.SUCCESS : ActionResultType.CONSUME : ActionResultType.FAIL;
+            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand);
         return super.use(state, world, pos, player, hand, rayTraceResult);
     }
 
@@ -130,5 +129,10 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     @Override
     public VoxelShape getOcclusionShape(BlockState state, IBlockReader world, BlockPos pos){
         return BlockShape.empty().getUnderlying();
+    }
+
+    @Override
+    public boolean canOcclude(BlockState state){
+        return false;
     }
 }

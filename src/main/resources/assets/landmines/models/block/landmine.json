@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"base": "landmines:block/landmine_base",
-		"particle": "#base"
+		"particle": "landmines:block/landmine_base"
 	},
 	"elements": [
 		{
