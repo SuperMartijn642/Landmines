@@ -37,7 +37,7 @@ public class LandminesConfig {
 
 
     static{
-        ModConfigBuilder builder = new ModConfigBuilder("structureblueprinter");
+        ModConfigBuilder builder = new ModConfigBuilder("landmines");
 
         builder.push("General");
 
@@ -50,23 +50,23 @@ public class LandminesConfig {
         builder.pop();
 
         builder.push("Potion Land Mine");
-        potionReusable = builder.comment("Should the potion land mine be reusable?").define("potionReusable",false);
+        potionReusable = builder.comment("Should the potion land mine be reusable?").define("potionReusable",true);
         builder.pop();
 
         builder.push("Launch Land Mine");
-        launchReusable = builder.comment("Should the launch land mine be reusable?").define("launchReusable",false);
+        launchReusable = builder.comment("Should the launch land mine be reusable?").define("launchReusable",true);
         builder.pop();
 
         builder.push("Teleport Land Mine");
-        teleportReusable = builder.comment("Should the teleport land mine be reusable?").define("teleportReusable",false);
+        teleportReusable = builder.comment("Should the teleport land mine be reusable?").define("teleportReusable",true);
         builder.pop();
 
         builder.push("Fire Land Mine");
-        fireReusable = builder.comment("Should the fire land mine be reusable?").define("fireReusable",false);
+        fireReusable = builder.comment("Should the fire land mine be reusable?").define("fireReusable",true);
         builder.pop();
 
         builder.push("Snow Land Mine");
-        snowReusable = builder.comment("Should the snow land mine be reusable?").define("snowReusable",false);
+        snowReusable = builder.comment("Should the snow land mine be reusable?").define("snowReusable",true);
         builder.pop();
 
         builder.push("Zombie Land Mine");
@@ -74,19 +74,19 @@ public class LandminesConfig {
         builder.pop();
 
         builder.push("Levitation Land Mine");
-        levitationReusable = builder.comment("Should the levitation land mine be reusable?").define("levitationReusable",false);
+        levitationReusable = builder.comment("Should the levitation land mine be reusable?").define("levitationReusable",true);
         builder.pop();
 
         builder.push("Lightning Land Mine");
-        lightningReusable = builder.comment("Should the lightning land mine be reusable?").define("lightningReusable",false);
+        lightningReusable = builder.comment("Should the lightning land mine be reusable?").define("lightningReusable",true);
         builder.pop();
 
         builder.push("Arrow Land Mine");
-        arrowsReusable = builder.comment("Should the arrow land mine be reusable?").define("arrowsReusable",false);
+        arrowsReusable = builder.comment("Should the arrow land mine be reusable?").define("arrowsReusable",true);
         builder.pop();
 
         builder.push("Fake Land Mine");
-        fakeReusable = builder.comment("Should the fake land mine be reusable?").define("fakeReusable",false);
+        fakeReusable = builder.comment("Should the fake land mine be reusable?").define("fakeReusable",true);
         builder.pop();
 
         builder.pop();
