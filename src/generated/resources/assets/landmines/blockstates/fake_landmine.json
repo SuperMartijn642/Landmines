@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "on=false": {
+      "model": "landmines:block/types/fake_landmine_off"
+    },
+    "on=true": {
+      "model": "landmines:block/types/fake_landmine_on"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "block.landmines.arrows_landmine": "Arrow Landmine",
+  "block.landmines.explosive_landmine": "Explosive Landmine",
+  "block.landmines.fake_landmine": "Fake Landmine",
+  "block.landmines.fire_landmine": "Fire Landmine",
+  "block.landmines.launch_landmine": "Launch Landmine",
+  "block.landmines.levitation_landmine": "Levitation Landmine",
+  "block.landmines.lightning_landmine": "Lightning Landmine",
+  "block.landmines.potion_landmine": "Potion Landmine",
+  "block.landmines.snow_landmine": "Snow Landmine",
+  "block.landmines.teleport_landmine": "Teleport Landmine",
+  "block.landmines.zombie_landmine": "Zombie Landmine",
+  "itemGroup.landmines": "Landmines",
+  "landmines.trigger_sound": "Landmine"
+}

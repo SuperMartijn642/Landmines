@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BCB",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "tag": "landmines:stone_pressure_plates"
+    },
+    "B": {
+      "tag": "forge:ingots/iron"
+    },
+    "C": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "result": {
+    "item": "landmines:zombie_landmine"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "landmines:block/landmine",
+  "textures": {
+    "type": "landmines:block/types/lightning_landmine_on"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "landmines:levitation_landmine"
+    ]
+  },
+  "criteria": {
+    "has_dispenser": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:shulker_shell"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "landmines:levitation_landmine"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dispenser",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "trigger_sound": {
+    "category": "block",
+    "subtitle": "landmines.trigger_sound",
+    "sounds": [
+      "landmines:trigger_sound"
+    ]
+  }
+}

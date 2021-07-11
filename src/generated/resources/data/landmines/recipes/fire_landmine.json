@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BCB"
+  ],
+  "key": {
+    "A": {
+      "tag": "landmines:stone_pressure_plates"
+    },
+    "B": {
+      "tag": "forge:ingots/iron"
+    },
+    "C": {
+      "tag": "forge:netherrack"
+    }
+  },
+  "result": {
+    "item": "landmines:fire_landmine"
+  }
+}
