@@ -1,9 +1,11 @@
 package com.supermartijn642.structureblueprinter;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockShape;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -11,6 +13,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -22,6 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -29,6 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
@@ -130,5 +136,14 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     @Override
     public VoxelShape getVisualShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context){
         return BlockShape.empty().getUnderlying();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> list, ITooltipFlag flag){
+        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).get());
+        if(this.type.itemFilter != null && this.type.tooltipItem != null)
+            list.add(TextComponents.translation("landmines.info.item",TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.AQUA).get());
+        if(this.type.reusable.get())
+            list.add(TextComponents.translation("landmines.info.reusable").color(TextFormatting.AQUA).get());
     }
 }
