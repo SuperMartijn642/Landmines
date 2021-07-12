@@ -57,7 +57,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
                     this.dataChanged();
                     return true;
                 }
-            }else if(this.stack.isEmpty() && this.type.itemFilter.test(stack)){
+            }else if(this.stack.isEmpty() && this.type.itemFilter != null && this.type.itemFilter.test(stack)){
                 this.stack = stack.copy();
                 this.stack.setCount(1);
                 stack.shrink(1);
