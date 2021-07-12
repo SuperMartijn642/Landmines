@@ -1,6 +1,7 @@
 package com.supermartijn642.structureblueprinter;
 
 import com.supermartijn642.core.block.BaseTileEntity;
+import com.supermartijn642.core.block.BlockShape;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
@@ -126,6 +128,11 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
 
     public ItemStack getStack(){
         return this.stack;
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox(){
+        return BlockShape.createBlockShape(3, -2, 3, 13, 1.125, 13).offset(this.getBlockPos()).simplify();
     }
 
     @Override
