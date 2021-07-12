@@ -1,27 +1,30 @@
 package com.supermartijn642.structureblueprinter;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.monster.BlazeEntity;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAreaEffectCloud;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 
@@ -36,26 +39,26 @@ public interface LandmineEffect {
     };
 
     LandmineEffect EXPLOSION = (world, pos, stack) -> {
-        if(!world.isClientSide)
-            world.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, LandminesConfig.explosionCausesFire.get(), LandminesConfig.explosionBreakBlocks.get() ? Explosion.Mode.BREAK : Explosion.Mode.NONE);
+        if(!world.isRemote)
+            world.newExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, LandminesConfig.explosionCausesFire.get(), LandminesConfig.explosionBreakBlocks.get());
     };
 
     LandmineEffect POTION = (world, pos, stack) -> {
-        if(!world.isClientSide){
-            Potion potion = PotionUtils.getPotion(stack);
-            List<EffectInstance> mobEffects = PotionUtils.getMobEffects(stack);
-            boolean isWater = potion == Potions.WATER && mobEffects.isEmpty();
+        if(!world.isRemote){
+            PotionType potion = PotionUtils.getPotionFromItem(stack);
+            List<PotionEffect> mobEffects = PotionUtils.getEffectsFromStack(stack);
+            boolean isWater = potion == PotionTypes.WATER && mobEffects.isEmpty();
             if(isWater){ // water potion
-                AxisAlignedBB area = new AxisAlignedBB(pos).inflate(4, 2, 4);
-                List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area, entity -> entity instanceof EndermanEntity || entity instanceof BlazeEntity);
-                for(LivingEntity entity : entities){
-                    double distance = area.getCenter().distanceToSqr(entity.position().x, entity.position().y, entity.position().z);
-                    if(distance < 16 && (entity instanceof EndermanEntity || entity instanceof BlazeEntity))
-                        entity.hurt(DamageSource.indirectMagic(entity, null), 1);
+                AxisAlignedBB area = new AxisAlignedBB(pos).grow(4, 2, 4);
+                List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, area, entity -> entity instanceof EntityEnderman || entity instanceof EntityBlaze);
+                for(EntityLivingBase entity : entities){
+                    double distance = area.getCenter().squareDistanceTo(entity.getPositionVector());
+                    if(distance < 16 && (entity instanceof EntityEnderman || entity instanceof EntityBlaze))
+                        entity.attackEntityFrom(DamageSource.DROWN, 1);
                 }
             }else if(!mobEffects.isEmpty()){
                 if(stack.getItem() == Items.LINGERING_POTION){ // lingering potion
-                    AreaEffectCloudEntity effectCloud = new AreaEffectCloudEntity(world, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5);
+                    EntityAreaEffectCloud effectCloud = new EntityAreaEffectCloud(world, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5);
 
                     effectCloud.setRadius(3);
                     effectCloud.setRadiusOnUse(-0.5f);
@@ -63,31 +66,31 @@ public interface LandmineEffect {
                     effectCloud.setRadiusPerTick(-effectCloud.getRadius() / effectCloud.getDuration());
                     effectCloud.setPotion(potion);
 
-                    for(EffectInstance effectinstance : PotionUtils.getCustomEffects(stack))
-                        effectCloud.addEffect(new EffectInstance(effectinstance));
+                    for(PotionEffect effectinstance : PotionUtils.getFullEffectsFromItem(stack))
+                        effectCloud.addEffect(new PotionEffect(effectinstance));
 
-                    CompoundNBT compoundnbt = stack.getTag();
-                    if(compoundnbt != null && compoundnbt.contains("CustomPotionColor", 99))
-                        effectCloud.setFixedColor(compoundnbt.getInt("CustomPotionColor"));
+                    NBTTagCompound compoundnbt = stack.getTagCompound();
+                    if(compoundnbt != null && compoundnbt.hasKey("CustomPotionColor", 99))
+                        effectCloud.setColor(compoundnbt.getInteger("CustomPotionColor"));
 
-                    world.addFreshEntity(effectCloud);
+                    world.spawnEntity(effectCloud);
                 }else{ // splash potion
-                    AxisAlignedBB area = new AxisAlignedBB(pos).inflate(4, 2, 4);
-                    List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, area);
-                    for(LivingEntity entity : entities){
-                        if(entity.isAffectedByPotions()){
-                            double distance = area.getCenter().distanceToSqr(entity.position().x, entity.position().y, entity.position().z);
+                    AxisAlignedBB area = new AxisAlignedBB(pos).grow(4, 2, 4);
+                    List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, area);
+                    for(EntityLivingBase entity : entities){
+                        if(entity.canBeHitWithPotion()){
+                            double distance = area.getCenter().squareDistanceTo(entity.getPositionVector());
                             if(distance < 16){
                                 double closenessFactor = 1 - Math.sqrt(distance) / 4;
 
-                                for(EffectInstance effectInstance : mobEffects){
-                                    Effect effect = effectInstance.getEffect();
-                                    if(effect.isInstantenous())
-                                        effect.applyInstantenousEffect(null, null, entity, effectInstance.getAmplifier(), closenessFactor);
+                                for(PotionEffect effectInstance : mobEffects){
+                                    Potion effect = effectInstance.getPotion();
+                                    if(effect.isInstant())
+                                        effect.affectEntity(null, null, entity, effectInstance.getAmplifier(), closenessFactor);
                                     else{
                                         int duration = (int)(closenessFactor * effectInstance.getDuration() + 0.5);
                                         if(duration > 20)
-                                            entity.addEffect(new EffectInstance(effect, duration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible()));
+                                            entity.addPotionEffect(new PotionEffect(effect, duration, effectInstance.getAmplifier(), effectInstance.getIsAmbient(), effectInstance.doesShowParticles()));
                                     }
                                 }
                             }
@@ -96,34 +99,34 @@ public interface LandmineEffect {
                 }
             }
 
-            int i = potion.hasInstantEffects() ? 2007 : 2002;
-            world.levelEvent(i, pos, PotionUtils.getColor(stack));
+            int i = potion.hasInstantEffect() ? 2007 : 2002;
+            world.playEvent(i, pos, PotionUtils.getColor(stack));
         }
     };
 
     LandmineEffect LAUNCH = (world, pos, stack) -> {
-        world.getEntitiesOfClass(Entity.class, new AxisAlignedBB(pos).inflate(0.3))
-            .forEach(entity -> entity.push(0, 1, 0));
+        world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos).grow(0.3))
+            .forEach(entity -> entity.addVelocity(0, 1, 0));
     };
 
     LandmineEffect TELEPORT = (world, pos, stack) -> {
-        if(!world.isClientSide){
-            world.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos).inflate(0.7))
+        if(!world.isRemote){
+            world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos).grow(0.7))
                 .forEach(entity -> {
-                    double entityX = entity.position().x;
-                    double entityY = entity.position().y;
-                    double entityZ = entity.position().z;
+                    double entityX = entity.getPositionVector().x;
+                    double entityY = entity.getPositionVector().y;
+                    double entityZ = entity.getPositionVector().z;
 
                     for(int i = 0; i < 16; ++i){
-                        double teleportX = entity.position().x + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
-                        double teleportY = MathHelper.clamp(entity.position().y + (double)(world.getRandom().nextInt(16) - 8), 0.0D, world.getHeight() - 1);
-                        double teleportZ = entity.position().z + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
-                        if(entity.isPassenger()){
-                            entity.stopRiding();
+                        double teleportX = entity.getPositionVector().x + (world.rand.nextDouble() - 0.5D) * 16.0D;
+                        double teleportY = MathHelper.clamp(entity.getPositionVector().y + (double)(world.rand.nextInt(16) - 8), 0.0D, world.getHeight() - 1);
+                        double teleportZ = entity.getPositionVector().z + (world.rand.nextDouble() - 0.5D) * 16.0D;
+                        if(entity.isRiding()){
+                            entity.dismountRidingEntity();
                         }
 
-                        if(entity.randomTeleport(teleportX, teleportY, teleportZ, true)){
-                            SoundEvent soundevent = SoundEvents.CHORUS_FRUIT_TELEPORT;
+                        if(entity.attemptTeleport(teleportX, teleportY, teleportZ)){
+                            SoundEvent soundevent = SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT;
                             world.playSound(null, entityX, entityY, entityZ, soundevent, SoundCategory.PLAYERS, 1.0F, 1.0F);
                             entity.playSound(soundevent, 1.0F, 1.0F);
                             break;
@@ -134,26 +137,26 @@ public interface LandmineEffect {
     };
 
     LandmineEffect FIRE = (world, pos, stack) -> {
-        world.getEntitiesOfClass(Entity.class, new AxisAlignedBB(pos).inflate(0.7))
+        world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos).grow(0.7))
             .forEach(entity -> {
-                if(!(entity instanceof PlayerEntity && ((PlayerEntity)entity).isCreative()))
-                    entity.setSecondsOnFire(60);
+                if(!(entity instanceof EntityPlayer && ((EntityPlayer)entity).isCreative()))
+                    entity.setFire(60);
             });
     };
 
     LandmineEffect SNOW = (world, pos, stack) -> {
-        if(!world.isClientSide){
+        if(!world.isRemote){
             for(int x = -5; x <= 5; x++){
                 for(int y = 1; y >= -1; y--){
                     for(int z = -5; z <= 5; z++){
-                        if(x * x + z * z > 5 * 5 || !world.isEmptyBlock(pos.offset(x, y, z)))
+                        if(x * x + z * z > 5 * 5 || !world.isAirBlock(pos.add(x, y, z)))
                             continue;
 
-                        BlockState state = Blocks.SNOW.defaultBlockState();
-                        if(!state.canSurvive(world, pos))
+                        IBlockState state = Blocks.SNOW_LAYER.getDefaultState();
+                        if(!Blocks.SNOW_LAYER.canPlaceBlockAt(world, pos))
                             continue;
 
-                        world.setBlock(pos.offset(x, y, z), state, 1 | 2);
+                        world.setBlockState(pos.add(x, y, z), state, 1 | 2);
                     }
                 }
             }
@@ -161,18 +164,20 @@ public interface LandmineEffect {
     };
 
     LandmineEffect ZOMBIE = (world, pos, stack) -> {
-        if(!world.isClientSide){
+        if(!world.isRemote){
             int spawns = 0;
             for(int attempts = 0; attempts < 20; attempts++){
-                int x = world.getRandom().nextInt(9) - 4;
-                int y = world.getRandom().nextInt(3) - 1;
-                int z = world.getRandom().nextInt(9) - 4;
-                BlockPos spawnPos = pos.offset(x, y, z);
-                if(!world.getBlockState(spawnPos.below()).getCollisionShape(world, spawnPos.below()).isEmpty() &&
-                    world.getBlockState(spawnPos).getCollisionShape(world, spawnPos).isEmpty() &&
-                    world.getBlockState(spawnPos.above()).getCollisionShape(world, spawnPos.above()).isEmpty()){
-                    Entity zombie = EntityType.ZOMBIE.spawn((ServerWorld)world, null, null, spawnPos, SpawnReason.TRIGGERED, true, false);
-                    if(zombie != null){
+                int x = world.rand.nextInt(9) - 4;
+                int y = world.rand.nextInt(3) - 1;
+                int z = world.rand.nextInt(9) - 4;
+                BlockPos spawnPos = pos.add(x, y, z);
+                if(world.getBlockState(spawnPos.down()).getCollisionBoundingBox(world, spawnPos.down()) != null && world.getBlockState(spawnPos.down()).getCollisionBoundingBox(world, spawnPos.down()).getAverageEdgeLength() != 0 &&
+                    (world.getBlockState(spawnPos).getCollisionBoundingBox(world, spawnPos) == null || world.getBlockState(spawnPos).getCollisionBoundingBox(world, spawnPos).getAverageEdgeLength() == 0) &&
+                    (world.getBlockState(spawnPos.up()).getCollisionBoundingBox(world, spawnPos.up()) == null || world.getBlockState(spawnPos.up()).getCollisionBoundingBox(world, spawnPos.up()).getAverageEdgeLength() == 0)){
+                    Entity zombie = new EntityZombie(world);
+                    zombie.setPosition(spawnPos.getX() + 0.5, spawnPos.getY() + 0.55, spawnPos.getZ() + 0.5);
+
+                    if(world.spawnEntity(zombie)){
                         spawns++;
                         if(spawns == 5)
                             return;
@@ -183,26 +188,28 @@ public interface LandmineEffect {
     };
 
     LandmineEffect LEVITATION = (world, pos, stack) -> {
-        world.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos).inflate(0.7))
+        world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos).grow(0.7))
             .forEach(
-                entity -> entity.addEffect(new EffectInstance(Effects.LEVITATION, 100, 1, true, false))
+                entity -> entity.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 100, 1, true, false))
             );
     };
 
     LandmineEffect LIGHTNING = (world, pos, stack) -> {
-        if(!world.isClientSide)
-            EntityType.LIGHTNING_BOLT.spawn((ServerWorld)world, null, null, pos, SpawnReason.TRIGGERED, true, false);
+        if(!world.isRemote){
+            EntityLightningBolt lightning = new EntityLightningBolt(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
+            world.addWeatherEffect(lightning);
+        }
     };
 
     LandmineEffect ARROWS = (world, pos, stack) -> {
-        if(!world.isClientSide){
+        if(!world.isRemote){
             int arrows = 16;
             for(int i = 0; i < arrows; i++){
                 double angle = Math.PI * 2 / arrows * i;
-                ArrowEntity entity = new ArrowEntity(world, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle));
-                entity.setDeltaMovement(0.2 * Math.cos(angle), 0.2, 0.2 * Math.sin(angle));
-                entity.pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
-                world.addFreshEntity(entity);
+                EntityArrow entity = new EntityTippedArrow(world, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle));
+                entity.setVelocity(0.2 * Math.cos(angle), 0.2, 0.2 * Math.sin(angle));
+                entity.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
+                world.spawnEntity(entity);
             }
         }
     };

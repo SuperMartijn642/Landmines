@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " A ",
+    "BCB"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:stone_pressure_plate",
+      "data": 0
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "C": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "landmines:fire_landmine"
+  }
+}

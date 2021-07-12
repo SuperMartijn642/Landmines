@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "landmines",
+    "name": "Landmines",
+    "description": "Landmines adds landmines that can explode, teleport, throw potions, and much more!",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "SuperMartijn642"
+    ],
+    "credits": "",
+    "logoFile": "landmines.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

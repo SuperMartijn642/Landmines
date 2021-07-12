@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
     " A ",
     "BCB",
@@ -7,13 +7,16 @@
   ],
   "key": {
     "A": {
-      "tag": "landmines:stone_pressure_plates"
+      "item": "minecraft:stone_pressure_plate",
+      "data": 0
     },
     "B": {
-      "tag": "forge:ingots/iron"
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
     },
     "C": {
-      "tag": "forge:dusts/redstone"
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
     },
     "D": {
       "item": "minecraft:glass_bottle"

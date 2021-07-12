@@ -1,19 +1,98 @@
 package com.supermartijn642.structureblueprinter;
 
 import com.supermartijn642.core.block.BaseTileEntity;
-import net.minecraft.block.BlockState;
+import com.supermartijn642.core.block.BlockShape;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineTileEntity extends BaseTileEntity implements ITickableTileEntity {
+public class LandmineTileEntity extends BaseTileEntity implements ITickable {
+
+    public static class ExplosiveTileEntity extends LandmineTileEntity {
+
+        public ExplosiveTileEntity(){
+            super(LandmineType.EXPLOSIVE);
+        }
+    }
+
+    public static class PotionTileEntity extends LandmineTileEntity {
+
+        public PotionTileEntity(){
+            super(LandmineType.POTION);
+        }
+    }
+
+    public static class LaunchTileEntity extends LandmineTileEntity {
+
+        public LaunchTileEntity(){
+            super(LandmineType.LAUNCH);
+        }
+    }
+
+    public static class TeleportTileEntity extends LandmineTileEntity {
+
+        public TeleportTileEntity(){
+            super(LandmineType.TELEPORT);
+        }
+    }
+
+    public static class FireTileEntity extends LandmineTileEntity {
+
+        public FireTileEntity(){
+            super(LandmineType.FIRE);
+        }
+    }
+
+    public static class SnowTileEntity extends LandmineTileEntity {
+
+        public SnowTileEntity(){
+            super(LandmineType.SNOW);
+        }
+    }
+
+    public static class ZombieTileEntity extends LandmineTileEntity {
+
+        public ZombieTileEntity(){
+            super(LandmineType.ZOMBIE);
+        }
+    }
+
+    public static class LevitationTileEntity extends LandmineTileEntity {
+
+        public LevitationTileEntity(){
+            super(LandmineType.LEVITATION);
+        }
+    }
+
+    public static class LightningTileEntity extends LandmineTileEntity {
+
+        public LightningTileEntity(){
+            super(LandmineType.LIGHTNING);
+        }
+    }
+
+    public static class ArrowsTileEntity extends LandmineTileEntity {
+
+        public ArrowsTileEntity(){
+            super(LandmineType.ARROWS);
+        }
+    }
+
+    public static class FakeTileEntity extends LandmineTileEntity {
+
+        public FakeTileEntity(){
+            super(LandmineType.FAKE);
+        }
+    }
 
     public final LandmineType type;
     private LandmineState state = LandmineState.UNARMED, lastState = this.state;
@@ -23,12 +102,11 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
     public int renderTransitionTicks = 0;
 
     public LandmineTileEntity(LandmineType type){
-        super(type.getTileEntityType());
         this.type = type;
     }
 
     @Override
-    public void tick(){
+    public void update(){
         if(this.state == LandmineState.ARMED){
             if(this.cooldown > 0)
                 this.cooldown--;
@@ -41,9 +119,9 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
         this.renderTransitionTicks++;
     }
 
-    public boolean onRightClick(PlayerEntity player, Hand hand){
+    public boolean onRightClick(EntityPlayer player, EnumHand hand){
         if(this.state == LandmineState.UNARMED){
-            ItemStack stack = player.getItemInHand(hand);
+            ItemStack stack = player.getHeldItem(hand);
             if(stack.isEmpty()){
                 if(player.isSneaking()){
                     if(this.type.itemFilter == null || !this.stack.isEmpty()){
@@ -52,16 +130,16 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
                         return true;
                     }
                 }else if(!this.stack.isEmpty()){
-                    player.setItemInHand(hand, this.stack);
+                    player.setHeldItem(hand, this.stack);
                     this.stack = ItemStack.EMPTY;
                     this.dataChanged();
                     return true;
                 }
-            }else if(this.stack.isEmpty() && this.type.itemFilter.test(stack)){
+            }else if(this.stack.isEmpty() && this.type.itemFilter != null && this.type.itemFilter.test(stack)){
                 this.stack = stack.copy();
                 this.stack.setCount(1);
                 stack.shrink(1);
-                player.setItemInHand(hand, stack);
+                player.setHeldItem(hand, stack);
                 this.dataChanged();
                 return true;
             }
@@ -74,7 +152,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
             if(this.cooldown > 0)
                 return;
 
-            this.level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ() + 0.5,
+            this.world.playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos().getZ() + 0.5,
                 Landmines.trigger_sound, SoundCategory.BLOCKS, 0.5f, 1);
 
             if(this.type.instantTrigger)
@@ -95,16 +173,16 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
             this.stack = ItemStack.EMPTY;
             this.collision = false;
         }else if(this.getBlockState().getBlock() instanceof LandmineBlock)
-            this.level.removeBlock(this.getBlockPos(), false);
+            this.world.setBlockToAir(this.getPos());
 
-        this.type.effect.applyEffect(this.level, this.getBlockPos(), stack);
+        this.type.effect.applyEffect(this.world, this.getPos(), stack);
     }
 
     private void updateState(LandmineState state){
         this.lastState = this.state;
         this.state = state;
         this.renderTransitionTicks = 0;
-        this.setChanged();
+        this.markDirty();
     }
 
     public boolean hasShape(){
@@ -119,9 +197,9 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
         return this.lastState;
     }
 
-    public BlockState getRenderBlockState(){
-        return this.type.getBlock().defaultBlockState()
-            .setValue(LandmineBlock.ON, this.state == LandmineState.UNARMED && (this.type.itemFilter == null || !this.stack.isEmpty()));
+    public IBlockState getRenderBlockState(){
+        return this.type.getBlock().getDefaultState()
+            .withProperty(LandmineBlock.ON, this.state == LandmineState.UNARMED && (this.type.itemFilter == null || !this.stack.isEmpty()));
     }
 
     public ItemStack getStack(){
@@ -129,25 +207,30 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
     }
 
     @Override
-    protected CompoundNBT writeData(){
-        CompoundNBT compound = new CompoundNBT();
-        compound.putInt("state", this.state.index);
-        compound.putInt("lastState", this.lastState.index);
-        compound.putBoolean("collision", this.collision);
-        compound.putInt("cooldown", this.cooldown);
-        compound.put("stack", this.stack.serializeNBT());
-        compound.putInt("renderTransitionTicks", this.renderTransitionTicks);
+    public AxisAlignedBB getRenderBoundingBox(){
+        return BlockShape.createBlockShape(3,-0.125,3,13,1.25,13).offset(this.pos).simplify();
+    }
+
+    @Override
+    protected NBTTagCompound writeData(){
+        NBTTagCompound compound = new NBTTagCompound();
+        compound.setInteger("state", this.state.index);
+        compound.setInteger("lastState", this.lastState.index);
+        compound.setBoolean("collision", this.collision);
+        compound.setInteger("cooldown", this.cooldown);
+        compound.setTag("stack", this.stack.serializeNBT());
+        compound.setInteger("renderTransitionTicks", this.renderTransitionTicks);
         return compound;
     }
 
     @Override
-    protected void readData(CompoundNBT compound){
-        this.state = LandmineState.fromIndex(compound.getInt("state"));
-        this.lastState = LandmineState.fromIndex(compound.getInt("lastState"));
+    protected void readData(NBTTagCompound compound){
+        this.state = LandmineState.fromIndex(compound.getInteger("state"));
+        this.lastState = LandmineState.fromIndex(compound.getInteger("lastState"));
         this.collision = compound.getBoolean("collision");
-        this.cooldown = compound.getInt("cooldown");
-        this.stack = ItemStack.of(compound.getCompound("stack"));
-        this.renderTransitionTicks = compound.getInt("renderTransitionTicks");
+        this.cooldown = compound.getInteger("cooldown");
+        this.stack = new ItemStack(compound.getCompoundTag("stack"));
+        this.renderTransitionTicks = compound.getInteger("renderTransitionTicks");
     }
 
     public enum LandmineState {

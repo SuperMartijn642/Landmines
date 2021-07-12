@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "landmines:potion_landmine"
+      "landmines:launch_landmine"
     ]
   },
   "criteria": {
@@ -11,7 +11,8 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/redstone"
+            "type": "forge:ore_dict",
+      "ore": "dustRedstone"
           }
         ]
       }
@@ -19,7 +20,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:potion_landmine"
+        "recipe": "landmines:launch_landmine"
       }
     }
   },

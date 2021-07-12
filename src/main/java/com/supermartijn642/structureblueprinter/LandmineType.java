@@ -1,11 +1,13 @@
 package com.supermartijn642.structureblueprinter;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Locale;
@@ -17,33 +19,32 @@ import java.util.function.Supplier;
  */
 public enum LandmineType {
 
-    EXPLOSIVE(LandminesConfig.explosionReusable, false, null, LandmineEffect.EXPLOSION, "Explosive"),
-    POTION(LandminesConfig.potionReusable, false, stack -> stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION, LandmineEffect.POTION, "Potion"),
-    LAUNCH(LandminesConfig.launchReusable, true, null, LandmineEffect.LAUNCH, "Launch"),
-    TELEPORT(LandminesConfig.teleportReusable, false, stack -> stack.getItem() == Items.CHORUS_FRUIT, LandmineEffect.TELEPORT, "Teleport"),
-    FIRE(LandminesConfig.fireReusable, false, stack -> stack.getItem() == Items.FIRE_CHARGE, LandmineEffect.FIRE, "Fire"),
-    SNOW(LandminesConfig.snowReusable, false, stack -> stack.getItem() == Items.SNOW_BLOCK, LandmineEffect.SNOW, "Snow"),
-    ZOMBIE(LandminesConfig.zombieReusable, false, null, LandmineEffect.ZOMBIE, "Zombie"),
-    LEVITATION(LandminesConfig.levitationReusable, true, null, LandmineEffect.LEVITATION, "Levitation"),
-    LIGHTNING(LandminesConfig.lightningReusable, true, null, LandmineEffect.LIGHTNING, "Lightning"),
-    ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, LandmineEffect.ARROWS, "Arrow"),
-    FAKE(LandminesConfig.fakeReusable, false, null, LandmineEffect.NOTHING, "Fake");
+    EXPLOSIVE(LandminesConfig.explosionReusable, false, null, LandmineEffect.EXPLOSION, LandmineTileEntity.ExplosiveTileEntity.class),
+    POTION(LandminesConfig.potionReusable, false, stack -> stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION, LandmineEffect.POTION, LandmineTileEntity.PotionTileEntity.class),
+    LAUNCH(LandminesConfig.launchReusable, true, null, LandmineEffect.LAUNCH, LandmineTileEntity.LaunchTileEntity.class),
+    TELEPORT(LandminesConfig.teleportReusable, false, stack -> stack.getItem() == Items.CHORUS_FRUIT, LandmineEffect.TELEPORT, LandmineTileEntity.TeleportTileEntity.class),
+    FIRE(LandminesConfig.fireReusable, false, stack -> stack.getItem() == Items.FIRE_CHARGE, LandmineEffect.FIRE, LandmineTileEntity.FireTileEntity.class),
+    SNOW(LandminesConfig.snowReusable, false, stack -> stack.getItem() == Item.getItemFromBlock(Blocks.SNOW), LandmineEffect.SNOW, LandmineTileEntity.SnowTileEntity.class),
+    ZOMBIE(LandminesConfig.zombieReusable, false, null, LandmineEffect.ZOMBIE, LandmineTileEntity.ZombieTileEntity.class),
+    LEVITATION(LandminesConfig.levitationReusable, true, null, LandmineEffect.LEVITATION, LandmineTileEntity.LevitationTileEntity.class),
+    LIGHTNING(LandminesConfig.lightningReusable, true, null, LandmineEffect.LIGHTNING, LandmineTileEntity.LightningTileEntity.class),
+    ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, LandmineEffect.ARROWS, LandmineTileEntity.ArrowsTileEntity.class),
+    FAKE(LandminesConfig.fakeReusable, false, null, LandmineEffect.NOTHING, LandmineTileEntity.FakeTileEntity.class);
 
-    private TileEntityType<LandmineTileEntity> tileEntityType;
+    private final Class<? extends LandmineTileEntity> tileEntityClass;
     private LandmineBlock block;
-    private BlockItem item;
+    private ItemBlock item;
     public final Supplier<Boolean> reusable;
     public final boolean instantTrigger;
     public final Predicate<ItemStack> itemFilter;
     public final LandmineEffect effect;
-    public final String englishTranslation;
 
-    LandmineType(Supplier<Boolean> reusable, boolean instantTrigger, Predicate<ItemStack> itemFilter, LandmineEffect effect, String englishTranslation){
+    LandmineType(Supplier<Boolean> reusable, boolean instantTrigger, Predicate<ItemStack> itemFilter, LandmineEffect effect, Class<? extends LandmineTileEntity> tileEntityClass){
+        this.tileEntityClass = tileEntityClass;
         this.reusable = reusable;
         this.instantTrigger = instantTrigger;
         this.itemFilter = itemFilter;
         this.effect = effect;
-        this.englishTranslation = englishTranslation;
     }
 
     public String getSuffix(){
@@ -55,14 +56,19 @@ public enum LandmineType {
     }
 
     public LandmineTileEntity getTileEntity(){
-        return new LandmineTileEntity(this);
+        try{
+            return this.tileEntityClass.newInstance();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public TileEntityType<LandmineTileEntity> getTileEntityType(){
-        return this.tileEntityType;
+    public Class<? extends LandmineTileEntity> getTileEntityClass(){
+        return this.tileEntityClass;
     }
 
-    public BlockItem getItem(){
+    public ItemBlock getItem(){
         return this.item;
     }
 
@@ -74,15 +80,11 @@ public enum LandmineType {
         registry.register(this.block);
     }
 
-    public void registerTileEntity(IForgeRegistry<TileEntityType<?>> registry){
-        if(this.tileEntityType != null)
-            throw new IllegalStateException("Tile entities have already been registered!");
+    public void registerTileEntity(){
         if(this.block == null)
             throw new IllegalStateException("Blocks must be registered before registering tile entity types!");
 
-        this.tileEntityType = TileEntityType.Builder.of(this::getTileEntity, this.block).build(null);
-        this.tileEntityType.setRegistryName(this.getSuffix() + "_landmine_tile_entity");
-        registry.register(this.tileEntityType);
+        GameRegistry.registerTileEntity(this.tileEntityClass, new ResourceLocation("landmines", this.getSuffix() + "_landmine_tile_entity"));
     }
 
     public void registerItem(IForgeRegistry<Item> registry){
@@ -91,7 +93,7 @@ public enum LandmineType {
         if(this.block == null)
             throw new IllegalStateException("Blocks must be registered before registering items!");
 
-        this.item = new BlockItem(this.block, new Item.Properties().tab(Landmines.GROUP));
+        this.item = new ItemBlock(this.block);
         this.item.setRegistryName(this.block.getRegistryName());
         registry.register(this.item);
     }

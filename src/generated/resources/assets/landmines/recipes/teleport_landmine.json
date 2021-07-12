@@ -1,0 +1,24 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " A ",
+    "BCB"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:stone_pressure_plate",
+      "data": 0
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "enderpearl"
+    }
+  },
+  "result": {
+    "item": "landmines:teleport_landmine"
+  }
+}

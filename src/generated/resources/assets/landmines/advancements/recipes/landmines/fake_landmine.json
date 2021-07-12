@@ -2,16 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "landmines:launch_landmine"
+      "landmines:fake_landmine"
     ]
   },
   "criteria": {
-    "has_redstone": {
+    "has_pressure_plate": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/redstone"
+            "item": "minecraft:stone_pressure_plate",
+      "data": 0
           }
         ]
       }
@@ -19,13 +20,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:launch_landmine"
+        "recipe": "landmines:fake_landmine"
       }
     }
   },
   "requirements": [
     [
-      "has_redstone",
+      "has_pressure_plate",
       "has_the_recipe"
     ]
   ]

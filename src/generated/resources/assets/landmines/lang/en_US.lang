@@ -1,0 +1,13 @@
+tile.landmines.arrows_landmine.name=Arrow Landmine
+tile.landmines.explosive_landmine.name=Explosive Landmine
+tile.landmines.fake_landmine.name=Fake Landmine
+tile.landmines.fire_landmine.name=Fire Landmine
+tile.landmines.launch_landmine.name=Launch Landmine
+tile.landmines.levitation_landmine.name=Levitation Landmine
+tile.landmines.lightning_landmine.name=Lightning Landmine
+tile.landmines.potion_landmine.name=Potion Landmine
+tile.landmines.snow_landmine.name=Snow Landmine
+tile.landmines.teleport_landmine.name=Teleport Landmine
+tile.landmines.zombie_landmine.name=Zombie Landmine
+itemGroup.landmines=Landmines
+landmines.trigger_sound=Landmine
