@@ -19,17 +19,17 @@ import java.util.function.Supplier;
  */
 public enum LandmineType {
 
-    EXPLOSIVE(LandminesConfig.explosionReusable, false, null, LandmineEffect.EXPLOSION, LandmineTileEntity.ExplosiveTileEntity.class),
-    POTION(LandminesConfig.potionReusable, false, stack -> stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION, LandmineEffect.POTION, LandmineTileEntity.PotionTileEntity.class),
-    LAUNCH(LandminesConfig.launchReusable, true, null, LandmineEffect.LAUNCH, LandmineTileEntity.LaunchTileEntity.class),
-    TELEPORT(LandminesConfig.teleportReusable, false, stack -> stack.getItem() == Items.CHORUS_FRUIT, LandmineEffect.TELEPORT, LandmineTileEntity.TeleportTileEntity.class),
-    FIRE(LandminesConfig.fireReusable, false, stack -> stack.getItem() == Items.FIRE_CHARGE, LandmineEffect.FIRE, LandmineTileEntity.FireTileEntity.class),
-    SNOW(LandminesConfig.snowReusable, false, stack -> stack.getItem() == Item.getItemFromBlock(Blocks.SNOW), LandmineEffect.SNOW, LandmineTileEntity.SnowTileEntity.class),
-    ZOMBIE(LandminesConfig.zombieReusable, false, null, LandmineEffect.ZOMBIE, LandmineTileEntity.ZombieTileEntity.class),
-    LEVITATION(LandminesConfig.levitationReusable, true, null, LandmineEffect.LEVITATION, LandmineTileEntity.LevitationTileEntity.class),
-    LIGHTNING(LandminesConfig.lightningReusable, true, null, LandmineEffect.LIGHTNING, LandmineTileEntity.LightningTileEntity.class),
-    ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, LandmineEffect.ARROWS, LandmineTileEntity.ArrowsTileEntity.class),
-    FAKE(LandminesConfig.fakeReusable, false, null, LandmineEffect.NOTHING, LandmineTileEntity.FakeTileEntity.class);
+    EXPLOSIVE(LandminesConfig.explosionReusable, false, null, null, LandmineEffect.EXPLOSION, LandmineTileEntity.ExplosiveTileEntity.class),
+    POTION(LandminesConfig.potionReusable, false, stack -> stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION, Items.POTIONITEM, LandmineEffect.POTION, LandmineTileEntity.PotionTileEntity.class),
+    LAUNCH(LandminesConfig.launchReusable, true, null, null, LandmineEffect.LAUNCH, LandmineTileEntity.LaunchTileEntity.class),
+    TELEPORT(LandminesConfig.teleportReusable, false, stack -> stack.getItem() == Items.CHORUS_FRUIT, Items.CHORUS_FRUIT, LandmineEffect.TELEPORT, LandmineTileEntity.TeleportTileEntity.class),
+    FIRE(LandminesConfig.fireReusable, false, stack -> stack.getItem() == Items.FIRE_CHARGE, Items.FIRE_CHARGE, LandmineEffect.FIRE, LandmineTileEntity.FireTileEntity.class),
+    SNOW(LandminesConfig.snowReusable, false, stack -> stack.getItem() == Item.getItemFromBlock(Blocks.SNOW), Item.getItemFromBlock(Blocks.SNOW), LandmineEffect.SNOW, LandmineTileEntity.SnowTileEntity.class),
+    ZOMBIE(LandminesConfig.zombieReusable, false, null, null, LandmineEffect.ZOMBIE, LandmineTileEntity.ZombieTileEntity.class),
+    LEVITATION(LandminesConfig.levitationReusable, true, null, null, LandmineEffect.LEVITATION, LandmineTileEntity.LevitationTileEntity.class),
+    LIGHTNING(LandminesConfig.lightningReusable, true, null, null, LandmineEffect.LIGHTNING, LandmineTileEntity.LightningTileEntity.class),
+    ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, Items.ARROW, LandmineEffect.ARROWS, LandmineTileEntity.ArrowsTileEntity.class),
+    FAKE(LandminesConfig.fakeReusable, false, null, null, LandmineEffect.NOTHING, LandmineTileEntity.FakeTileEntity.class);
 
     private final Class<? extends LandmineTileEntity> tileEntityClass;
     private LandmineBlock block;
@@ -37,13 +37,15 @@ public enum LandmineType {
     public final Supplier<Boolean> reusable;
     public final boolean instantTrigger;
     public final Predicate<ItemStack> itemFilter;
+    public final Item tooltipItem;
     public final LandmineEffect effect;
 
-    LandmineType(Supplier<Boolean> reusable, boolean instantTrigger, Predicate<ItemStack> itemFilter, LandmineEffect effect, Class<? extends LandmineTileEntity> tileEntityClass){
+    LandmineType(Supplier<Boolean> reusable, boolean instantTrigger, Predicate<ItemStack> itemFilter, Item tooltipItem, LandmineEffect effect, Class<? extends LandmineTileEntity> tileEntityClass){
         this.tileEntityClass = tileEntityClass;
         this.reusable = reusable;
         this.instantTrigger = instantTrigger;
         this.itemFilter = itemFilter;
+        this.tooltipItem = tooltipItem;
         this.effect = effect;
     }
 

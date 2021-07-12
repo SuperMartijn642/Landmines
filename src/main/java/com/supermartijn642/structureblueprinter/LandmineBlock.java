@@ -1,5 +1,6 @@
 package com.supermartijn642.structureblueprinter;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.ToolType;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockShape;
@@ -9,20 +10,24 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
@@ -148,5 +153,14 @@ public class LandmineBlock extends BaseBlock {
     @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face){
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag){
+        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).format());
+        if(this.type.itemFilter != null && this.type.tooltipItem != null)
+            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.AQUA).format());
+        if(this.type.reusable.get())
+            list.add(TextComponents.translation("landmines.info.reusable").color(TextFormatting.AQUA).format());
     }
 }
