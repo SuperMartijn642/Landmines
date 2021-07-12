@@ -11,5 +11,19 @@
   "block.landmines.teleport_landmine": "Teleport Landmine",
   "block.landmines.zombie_landmine": "Zombie Landmine",
   "itemGroup.landmines": "Landmines",
-  "landmines.trigger_sound": "Landmine"
+  "landmines.arrows.info": "Shoots out arrows when triggered.",
+  "landmines.explosive.info": "Explodes when triggered.",
+  "landmines.fake.info": "A fake landmine disguised as an Explosive Landmine.",
+  "landmines.fire.info": "Sets players and mobs on fire when triggered.",
+  "landmines.info.item": "Requires a %1$s to be armed.",
+  "landmines.info.reusable": "Can be reused.",
+  "landmines.launch.info": "Launches players and mobs into the air when triggered.",
+  "landmines.levitation.info": "Gives players and mobs levitation when triggered.",
+  "landmines.lightning.info": "Strikes lightning when triggered.",
+  "landmines.potion.info": "Throws a potion when triggered.",
+  "landmines.require_item": "%1$s requires a %2$s to be armed!",
+  "landmines.snow.info": "Spawns snow when triggered.",
+  "landmines.teleport.info": "Teleports players and mobs when triggered.",
+  "landmines.trigger_sound": "Landmine",
+  "landmines.zombie.info": "Spawns zombies when triggered."
 }

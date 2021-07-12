@@ -1,5 +1,6 @@
 package com.supermartijn642.structureblueprinter;
 
+import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseTileEntity;
 import com.supermartijn642.core.block.BlockShape;
 import net.minecraft.block.BlockState;
@@ -11,6 +12,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextFormatting;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
@@ -52,7 +54,8 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
                         this.updateState(LandmineState.ARMED);
                         this.cooldown = LandminesConfig.activationDelay.get();
                         return true;
-                    }
+                    }else if(this.type.tooltipItem != null && !this.level.isClientSide)
+                        player.displayClientMessage(TextComponents.translation("landmines.require_item",TextComponents.block(this.type.getBlock()).get(),TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.YELLOW).get(),true);
                 }else if(!this.stack.isEmpty()){
                     player.setItemInHand(hand, this.stack);
                     this.stack = ItemStack.EMPTY;

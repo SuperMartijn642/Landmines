@@ -17,7 +17,12 @@ public class LandmineLanguageProvider extends LanguageProvider {
     protected void addTranslations(){
         this.add("itemGroup.landmines", "Landmines");
         this.add("landmines.trigger_sound", "Landmine");
-        for(LandmineType type : LandmineType.values())
+        this.add("landmines.require_item", "%1$s requires a %2$s to be armed!");
+        this.add("landmines.info.item", "Requires a %1$s to be armed.");
+        this.add("landmines.info.reusable", "Can be reused.");
+        for(LandmineType type : LandmineType.values()){
+            this.add("landmines." + type.getSuffix() + ".info", type.englishDescription);
             this.add(type.getBlock(), type.englishTranslation + " Landmine");
+        }
     }
 }
