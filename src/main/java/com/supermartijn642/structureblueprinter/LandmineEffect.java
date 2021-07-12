@@ -140,7 +140,7 @@ public interface LandmineEffect {
         world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos).grow(0.7))
             .forEach(entity -> {
                 if(!(entity instanceof EntityPlayer && ((EntityPlayer)entity).isCreative()))
-                    entity.setFire(60);
+                    entity.setFire(5);
             });
     };
 
