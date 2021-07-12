@@ -208,7 +208,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickable {
 
     @Override
     public AxisAlignedBB getRenderBoundingBox(){
-        return BlockShape.createBlockShape(3,-0.125,3,13,1.25,13).offset(this.pos).simplify();
+        return BlockShape.createBlockShape(3, -2, 3, 13, 1.125, 13).offset(this.getPos()).simplify();
     }
 
     @Override
