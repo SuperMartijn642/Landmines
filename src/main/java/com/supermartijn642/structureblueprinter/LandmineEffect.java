@@ -136,7 +136,7 @@ public interface LandmineEffect {
         world.getEntitiesOfClass(Entity.class, new AxisAlignedBB(pos).inflate(0.7))
             .forEach(entity -> {
                 if(!(entity instanceof PlayerEntity && ((PlayerEntity)entity).isCreative()))
-                    entity.setSecondsOnFire(60);
+                    entity.setSecondsOnFire(5);
             });
     };
 
