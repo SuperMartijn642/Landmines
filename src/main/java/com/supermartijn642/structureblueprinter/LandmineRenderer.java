@@ -2,10 +2,12 @@ package com.supermartijn642.structureblueprinter;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.supermartijn642.core.ClientUtils;
+import com.supermartijn642.core.gui.ScreenUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -34,6 +36,7 @@ public class LandmineRenderer extends TileEntityRenderer<LandmineTileEntity> {
 
         GlStateManager.disableLighting();
 
+        ScreenUtils.bindTexture(AtlasTexture.LOCATION_BLOCKS);
         IBakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
         ClientUtils.getBlockRenderer().getModelRenderer().renderModel(tileEntity.getLevel(), model, state, tileEntity.getBlockPos(), buffer, true, new Random(), 42L, EmptyModelData.INSTANCE);
 
