@@ -129,6 +129,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickable {
                     if(this.type.itemFilter == null || !this.stack.isEmpty()){
                         this.updateState(LandmineState.ARMED);
                         this.cooldown = LandminesConfig.activationDelay.get();
+                        this.dataChanged();
                         return true;
                     }else if(this.type.tooltipItem != null && !this.world.isRemote)
                         player.sendStatusMessage(TextComponents.translation("landmines.require_item", TextComponents.block(this.type.getBlock()).get(), TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.YELLOW).get(), true);
