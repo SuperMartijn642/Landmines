@@ -62,7 +62,7 @@ The Fake Landmine is disguised as an Explosive Landmine, however does nothing wh
 2. If required, insert the needed item by right the landmine with it  
 3. Shift right-click the landmine  
 
-[Arming a landmine](https://imgur.com/ItCdTLn.gif)
+![Arming a landmine](https://github.com/SuperMartijn642/Landmines/blob/1.16/images/landmine%20arm%20demo.gif)
 
 ---
 
