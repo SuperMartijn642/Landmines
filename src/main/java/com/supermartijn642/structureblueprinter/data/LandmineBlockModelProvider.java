@@ -1,9 +1,9 @@
 package com.supermartijn642.structureblueprinter.data;
 
 import com.supermartijn642.structureblueprinter.LandmineType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 /**
  * Created 7/8/2021 by SuperMartijn642

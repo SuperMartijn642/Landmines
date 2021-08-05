@@ -3,21 +3,21 @@ package com.supermartijn642.structureblueprinter;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseTileEntity;
 import com.supermartijn642.core.block.BlockShape;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineTileEntity extends BaseTileEntity implements ITickableTileEntity {
+public class LandmineTileEntity extends BaseTileEntity {
 
     public final LandmineType type;
     private LandmineState state = LandmineState.UNARMED, lastState = this.state;
@@ -26,12 +26,11 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
     private ItemStack stack = ItemStack.EMPTY;
     public int renderTransitionTicks = 0;
 
-    public LandmineTileEntity(LandmineType type){
-        super(type.getTileEntityType());
+    public LandmineTileEntity(LandmineType type, BlockPos pos, BlockState state){
+        super(type.getTileEntityType(), pos, state);
         this.type = type;
     }
 
-    @Override
     public void tick(){
         if(this.state == LandmineState.ARMED){
             if(this.cooldown > 0)
@@ -45,7 +44,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
         this.renderTransitionTicks++;
     }
 
-    public boolean onRightClick(PlayerEntity player, Hand hand){
+    public boolean onRightClick(Player player, InteractionHand hand){
         if(this.state == LandmineState.UNARMED){
             ItemStack stack = player.getItemInHand(hand);
             if(stack.isEmpty()){
@@ -56,7 +55,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
                         this.dataChanged();
                         return true;
                     }else if(this.type.tooltipItem != null && !this.level.isClientSide)
-                        player.displayClientMessage(TextComponents.translation("landmines.require_item",TextComponents.block(this.type.getBlock()).get(),TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.YELLOW).get(),true);
+                        player.displayClientMessage(TextComponents.translation("landmines.require_item", TextComponents.block(this.type.getBlock()).get(), TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.YELLOW).get(), true);
                 }else if(!this.stack.isEmpty()){
                     player.setItemInHand(hand, this.stack);
                     this.stack = ItemStack.EMPTY;
@@ -81,7 +80,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
                 return;
 
             this.level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ() + 0.5,
-                Landmines.trigger_sound, SoundCategory.BLOCKS, 0.5f, 1);
+                Landmines.trigger_sound, SoundSource.BLOCKS, 0.5f, 1);
 
             if(this.type.instantTrigger)
                 this.trigger();
@@ -135,13 +134,13 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox(){
+    public AABB getRenderBoundingBox(){
         return BlockShape.createBlockShape(3, -2, 3, 13, 1.125, 13).offset(this.getBlockPos()).simplify();
     }
 
     @Override
-    protected CompoundNBT writeData(){
-        CompoundNBT compound = new CompoundNBT();
+    protected CompoundTag writeData(){
+        CompoundTag compound = new CompoundTag();
         compound.putInt("state", this.state.index);
         compound.putInt("lastState", this.lastState.index);
         compound.putBoolean("collision", this.collision);
@@ -152,7 +151,7 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickableTileE
     }
 
     @Override
-    protected void readData(CompoundNBT compound){
+    protected void readData(CompoundTag compound){
         this.state = LandmineState.fromIndex(compound.getInt("state"));
         this.lastState = LandmineState.fromIndex(compound.getInt("lastState"));
         this.collision = compound.getBoolean("collision");

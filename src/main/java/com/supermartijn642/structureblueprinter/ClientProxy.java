@@ -1,10 +1,9 @@
 package com.supermartijn642.structureblueprinter;
 
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 /**
  * Created 7/1/2021 by SuperMartijn642
@@ -13,9 +12,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public class ClientProxy {
 
     @SubscribeEvent
-    public static void setup(FMLClientSetupEvent e){
+    public static void setup(EntityRenderersEvent.RegisterRenderers e){
         for(LandmineType type : LandmineType.values())
-            ClientRegistry.bindTileEntityRenderer(type.getTileEntityType(), LandmineRenderer::new);
+            e.registerBlockEntityRenderer(type.getTileEntityType(), context -> new LandmineRenderer());
     }
 
 }

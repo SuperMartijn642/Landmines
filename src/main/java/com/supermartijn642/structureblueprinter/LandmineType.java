@@ -1,11 +1,13 @@
 package com.supermartijn642.structureblueprinter;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Locale;
@@ -29,7 +31,7 @@ public enum LandmineType {
     ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, Items.ARROW, LandmineEffect.ARROWS, "Arrow", "Shoots out arrows when triggered."),
     FAKE(LandminesConfig.fakeReusable, false, null, null, LandmineEffect.NOTHING, "Fake", "A fake landmine disguised as an Explosive Landmine.");
 
-    private TileEntityType<LandmineTileEntity> tileEntityType;
+    private BlockEntityType<LandmineTileEntity> tileEntityType;
     private LandmineBlock block;
     private BlockItem item;
     public final Supplier<Boolean> reusable;
@@ -58,11 +60,11 @@ public enum LandmineType {
         return this.block;
     }
 
-    public LandmineTileEntity getTileEntity(){
-        return new LandmineTileEntity(this);
+    public LandmineTileEntity getTileEntity(BlockPos pos, BlockState state){
+        return new LandmineTileEntity(this, pos, state);
     }
 
-    public TileEntityType<LandmineTileEntity> getTileEntityType(){
+    public BlockEntityType<LandmineTileEntity> getTileEntityType(){
         return this.tileEntityType;
     }
 
@@ -78,13 +80,13 @@ public enum LandmineType {
         registry.register(this.block);
     }
 
-    public void registerTileEntity(IForgeRegistry<TileEntityType<?>> registry){
+    public void registerTileEntity(IForgeRegistry<BlockEntityType<?>> registry){
         if(this.tileEntityType != null)
             throw new IllegalStateException("Tile entities have already been registered!");
         if(this.block == null)
             throw new IllegalStateException("Blocks must be registered before registering tile entity types!");
 
-        this.tileEntityType = TileEntityType.Builder.of(this::getTileEntity, this.block).build(null);
+        this.tileEntityType = BlockEntityType.Builder.of(this::getTileEntity, this.block).build(null);
         this.tileEntityType.setRegistryName(this.getSuffix() + "_landmine_tile_entity");
         registry.register(this.tileEntityType);
     }

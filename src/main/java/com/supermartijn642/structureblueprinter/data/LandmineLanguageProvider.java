@@ -2,7 +2,7 @@ package com.supermartijn642.structureblueprinter.data;
 
 import com.supermartijn642.structureblueprinter.LandmineType;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 /**
  * Created 7/8/2021 by SuperMartijn642

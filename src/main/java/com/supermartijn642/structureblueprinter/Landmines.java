@@ -1,17 +1,17 @@
 package com.supermartijn642.structureblueprinter;
 
 import com.supermartijn642.structureblueprinter.data.*;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.ObjectHolder;
 
 /**
@@ -20,7 +20,7 @@ import net.minecraftforge.registries.ObjectHolder;
 @Mod("landmines")
 public class Landmines {
 
-    public static final ItemGroup GROUP = new ItemGroup("landmines") {
+    public static final CreativeModeTab GROUP = new CreativeModeTab("landmines") {
         @Override
         public ItemStack makeIcon(){
             return new ItemStack(LandmineType.EXPLOSIVE.getItem());
@@ -28,7 +28,7 @@ public class Landmines {
     };
 
     @ObjectHolder("landmines:landmine_tile_entity")
-    public static TileEntityType<LandmineTileEntity> landmine_tile_entity;
+    public static BlockEntityType<LandmineTileEntity> landmine_tile_entity;
 
     @ObjectHolder("landmines:trigger_sound")
     public static SoundEvent trigger_sound;
@@ -46,7 +46,7 @@ public class Landmines {
         }
 
         @SubscribeEvent
-        public static void onTileEntityRegistry(RegistryEvent.Register<TileEntityType<?>> e){
+        public static void onTileEntityRegistry(RegistryEvent.Register<BlockEntityType<?>> e){
             for(LandmineType type : LandmineType.values())
                 type.registerTileEntity(e.getRegistry());
         }
@@ -65,11 +65,12 @@ public class Landmines {
             e.getGenerator().addProvider(new LandmineLanguageProvider(e));
             e.getGenerator().addProvider(new LandmineLootTableProvider(e));
             e.getGenerator().addProvider(new LandmineTagsProvider(e));
+            e.getGenerator().addProvider(new LandmineBlockTagsProvider(e));
             e.getGenerator().addProvider(new LandmineRecipeProvider(e));
         }
 
         @SubscribeEvent
-        public static void onSoundRegistry(RegistryEvent.Register<SoundEvent> e) {
+        public static void onSoundRegistry(RegistryEvent.Register<SoundEvent> e){
             e.getRegistry().register(new SoundEvent(new ResourceLocation("landmines", "trigger_sound")).setRegistryName("trigger_sound"));
         }
     }

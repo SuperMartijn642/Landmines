@@ -1,10 +1,10 @@
 package com.supermartijn642.structureblueprinter.data;
 
-import net.minecraft.data.BlockTagsProvider;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Items;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 /**
  * Created 7/9/2021 by SuperMartijn642

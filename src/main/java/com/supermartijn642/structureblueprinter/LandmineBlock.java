@@ -3,34 +3,37 @@ package com.supermartijn642.structureblueprinter;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BlockShape;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
@@ -39,7 +42,7 @@ import java.util.List;
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineBlock extends BaseBlock implements IWaterLoggable {
+public class LandmineBlock extends BaseBlock implements EntityBlock, SimpleWaterloggedBlock {
 
     private static final BlockShape SHAPE = BlockShape.or(
         BlockShape.createBlockShape(3, 0, 3, 13, 0.75, 13),
@@ -58,25 +61,25 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context){
-        TileEntity entity = world.getBlockEntity(pos);
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context){
+        BlockEntity entity = world.getBlockEntity(pos);
         return entity instanceof LandmineTileEntity && !((LandmineTileEntity)entity).hasShape() ? BlockShape.empty().getUnderlying() : SHAPE.getUnderlying();
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState state2, IWorld world, BlockPos pos, BlockPos pos2){
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor world, BlockPos pos, BlockPos pos2){
         return state.canSurvive(world, pos) ? super.updateShape(state, direction, state2, world, pos, pos2) : Blocks.AIR.defaultBlockState();
     }
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos){
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos){
         BlockPos blockpos = pos.below();
         return canSupportCenter(world, blockpos, Direction.UP);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context){
+    public BlockState getStateForPlacement(BlockPlaceContext context){
         FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
         return this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
     }
@@ -86,64 +89,66 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
         return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
+    @Nullable
     @Override
-    public boolean hasTileEntity(BlockState state){
-        return true;
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state){
+        return this.type.getTileEntity(pos, state);
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world){
-        return this.type.getTileEntity();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> entityType){
+        return entityType == this.type.getTileEntityType() ?
+            (world2, pos, state2, entity) -> ((LandmineTileEntity)entity).tick() : null;
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block,BlockState> builder){
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block,BlockState> builder){
         builder.add(ON, BlockStateProperties.WATERLOGGED);
     }
 
     @Override
-    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity){
-        TileEntity tileEntity = world.getBlockEntity(pos);
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity){
+        BlockEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof LandmineTileEntity)
             ((LandmineTileEntity)tileEntity).onEntityCollide(entity);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult){
-        TileEntity tileEntity = world.getBlockEntity(pos);
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult){
+        BlockEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof LandmineTileEntity)
-            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand) ? ActionResultType.sidedSuccess(world.isClientSide) : ActionResultType.FAIL;
+            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand) ? InteractionResult.sidedSuccess(world.isClientSide) : InteractionResult.FAIL;
         return super.use(state, world, pos, player, hand, rayTraceResult);
     }
 
     @Override
-    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean p_196243_5_){
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean p_196243_5_){
         if(!state.is(newState.getBlock())){
-            TileEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = world.getBlockEntity(pos);
             if(tileEntity instanceof LandmineTileEntity)
-                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), ((LandmineTileEntity)tileEntity).getStack());
+                Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), ((LandmineTileEntity)tileEntity).getStack());
 
             super.onRemove(state, world, pos, newState, p_196243_5_);
         }
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state){
-        return BlockRenderType.INVISIBLE;
+    public RenderShape getRenderShape(BlockState state){
+        return RenderShape.INVISIBLE;
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context){
+    public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context){
         return BlockShape.empty().getUnderlying();
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> list, ITooltipFlag flag){
-        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).get());
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> list, TooltipFlag flag){
+        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(ChatFormatting.AQUA).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
-            list.add(TextComponents.translation("landmines.info.item",TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.AQUA).get());
+            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.AQUA).get());
         if(this.type.reusable.get())
-            list.add(TextComponents.translation("landmines.info.reusable").color(TextFormatting.AQUA).get());
+            list.add(TextComponents.translation("landmines.info.reusable").color(ChatFormatting.AQUA).get());
     }
 }
