@@ -34,7 +34,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -54,7 +53,7 @@ public class LandmineBlock extends BaseBlock implements EntityBlock, SimpleWater
     public final LandmineType type;
 
     public LandmineBlock(LandmineType type){
-        super(type.getSuffix() + "_landmine", false, Properties.of(Material.METAL, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).strength(0.5f));
+        super(type.getSuffix() + "_landmine", false, Properties.of(Material.METAL, DyeColor.GRAY).strength(0.5f));
         this.type = type;
 
         this.registerDefaultState(this.defaultBlockState().setValue(ON, false).setValue(BlockStateProperties.WATERLOGGED, false));
