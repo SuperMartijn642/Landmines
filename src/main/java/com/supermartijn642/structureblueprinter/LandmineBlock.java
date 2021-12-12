@@ -144,10 +144,9 @@ public class LandmineBlock extends BaseBlock implements EntityBlock, SimpleWater
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> list, TooltipFlag flag){
-        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(ChatFormatting.AQUA).get());
+        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(ChatFormatting.GRAY).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
-            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.AQUA).get());
-        if(this.type.reusable.get())
-            list.add(TextComponents.translation("landmines.info.reusable").color(ChatFormatting.AQUA).get());
+            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
+        list.add(TextComponents.translation("landmines.info.reusable", TextComponents.translation("landmines.info.reusable." + this.type.reusable.get()).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
     }
 }

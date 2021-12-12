@@ -24,6 +24,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -107,11 +108,13 @@ public interface LandmineEffect {
 
     LandmineEffect LAUNCH = (world, pos, stack) -> {
         world.getEntitiesOfClass(Entity.class, new AABB(pos).inflate(0.3))
-            .forEach(entity -> entity.push(0, 1, 0));
+            .forEach(entity -> entity.push(0, LandminesConfig.launchForce.get(), 0));
+        world.playSound(null, pos, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 1, 0.8f);
     };
 
     LandmineEffect TELEPORT = (world, pos, stack) -> {
         if(!world.isClientSide){
+            double range = LandminesConfig.teleportRange.get();
             world.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(0.7))
                 .forEach(entity -> {
                     double entityX = entity.getX();
@@ -119,9 +122,9 @@ public interface LandmineEffect {
                     double entityZ = entity.getZ();
 
                     for(int i = 0; i < 16; ++i){
-                        double teleportX = entity.getX() + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
-                        double teleportY = Mth.clamp(entity.getY() + (double)(world.getRandom().nextInt(16) - 8), 0.0D, world.getHeight() - 1);
-                        double teleportZ = entity.getZ() + (world.getRandom().nextDouble() - 0.5D) * 16.0D;
+                        double teleportX = entity.getX() + (world.getRandom().nextDouble() - 0.5) * 2 * range;
+                        double teleportY = Mth.clamp(entity.getY() + (world.getRandom().nextDouble() - 0.5) * 2 * range, 0, world.getHeight() - 1);
+                        double teleportZ = entity.getZ() + (world.getRandom().nextDouble() - 0.5) * 2 * range;
                         if(entity.isPassenger()){
                             entity.stopRiding();
                         }
@@ -147,14 +150,19 @@ public interface LandmineEffect {
 
     LandmineEffect SNOW = (world, pos, stack) -> {
         if(!world.isClientSide){
-            for(int x = -5; x <= 5; x++){
+            int maxRange = LandminesConfig.snowRange.get();
+            for(int x = -maxRange; x <= maxRange; x++){
                 for(int y = 1; y >= -1; y--){
-                    for(int z = -5; z <= 5; z++){
-                        if(x * x + z * z > 5 * 5 || !world.isEmptyBlock(pos.offset(x, y, z)))
+                    for(int z = -maxRange; z <= maxRange; z++){
+                        int distance = x * x + z * z;
+                        if(distance > maxRange * maxRange || !world.isEmptyBlock(pos.offset(x, y, z)))
                             continue;
 
+                        int layers = world.getRandom().nextInt(Math.min(7, Math.max(1, (int)Math.ceil((maxRange - Math.sqrt(distance)) / maxRange * 7))) + 1) + 1;
+
                         BlockState state = Blocks.SNOW.defaultBlockState();
-                        if(!state.canSurvive(world, pos))
+                        state = state.setValue(SnowLayerBlock.LAYERS, world.getRandom().nextInt(layers) + 1);
+                        if(!state.canSurvive(world, pos.offset(x, y, z)))
                             continue;
 
                         world.setBlock(pos.offset(x, y, z), state, 1 | 2);
@@ -166,11 +174,12 @@ public interface LandmineEffect {
 
     LandmineEffect ZOMBIE = (world, pos, stack) -> {
         if(!world.isClientSide){
-            int spawns = 0;
-            for(int attempts = 0; attempts < 20; attempts++){
-                int x = world.getRandom().nextInt(9) - 4;
-                int y = world.getRandom().nextInt(3) - 1;
-                int z = world.getRandom().nextInt(9) - 4;
+            int spawnRange = LandminesConfig.zombieRange.get();
+            int spawns = 0, targetSpawns = LandminesConfig.zombieCount.get();
+            for(int attempts = 0; attempts < Math.max(20, targetSpawns * 3); attempts++){
+                int x = (int)((world.getRandom().nextDouble() - 0.5) * 2 * spawnRange);
+                int y = world.getRandom().nextInt(5) - 2;
+                int z = (int)((world.getRandom().nextDouble() - 0.5) * 2 * spawnRange);
                 BlockPos spawnPos = pos.offset(x, y, z);
                 if(!world.getBlockState(spawnPos.below()).getCollisionShape(world, spawnPos.below()).isEmpty() &&
                     world.getBlockState(spawnPos).getCollisionShape(world, spawnPos).isEmpty() &&
@@ -178,7 +187,7 @@ public interface LandmineEffect {
                     Entity zombie = EntityType.ZOMBIE.spawn((ServerLevel)world, null, null, spawnPos, MobSpawnType.TRIGGERED, true, false);
                     if(zombie != null){
                         spawns++;
-                        if(spawns == 5)
+                        if(spawns == targetSpawns)
                             return;
                     }
                 }
@@ -187,9 +196,10 @@ public interface LandmineEffect {
     };
 
     LandmineEffect LEVITATION = (world, pos, stack) -> {
+        int duration = LandminesConfig.levitationDuration.get();
         world.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(0.7))
             .forEach(
-                entity -> entity.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 100, 1, true, false))
+                entity -> entity.addEffect(new MobEffectInstance(MobEffects.LEVITATION, duration, 1, true, false))
             );
     };
 
@@ -200,11 +210,11 @@ public interface LandmineEffect {
 
     LandmineEffect ARROWS = (world, pos, stack) -> {
         if(!world.isClientSide){
-            int arrows = 16;
+            int arrows = LandminesConfig.arrowsCount.get();
             for(int i = 0; i < arrows; i++){
                 double angle = Math.PI * 2 / arrows * i;
                 Arrow entity = new Arrow(world, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle));
-                entity.setDeltaMovement(0.2 * Math.cos(angle), 0.2, 0.2 * Math.sin(angle));
+                entity.setDeltaMovement(0.2 * Math.cos(angle) + world.getRandom().nextDouble() * 0.2 - 0.1, 0.2 + world.getRandom().nextDouble() * 0.2 - 0.1, 0.2 * Math.sin(angle) + world.getRandom().nextDouble() * 0.2 - 0.1);
                 entity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 world.addFreshEntity(entity);
             }
