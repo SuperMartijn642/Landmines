@@ -118,9 +118,9 @@ public interface LandmineEffect {
                     double entityZ = entity.position().z;
 
                     for(int i = 0; i < 16; ++i){
-                        double teleportX = entity.position().x + (world.getRandom().nextDouble() - 0.5D) * range;
+                        double teleportX = entity.position().x + (world.getRandom().nextDouble() - 0.5) * 2 * range;
                         double teleportY = MathHelper.clamp(entity.position().y + (world.getRandom().nextDouble() - 0.5) * 2 * range, 0, world.getHeight() - 1);
-                        double teleportZ = entity.position().z + (world.getRandom().nextDouble() - 0.5D) * range;
+                        double teleportZ = entity.position().z + (world.getRandom().nextDouble() - 0.5) * 2 * range;
                         if(entity.isPassenger()){
                             entity.stopRiding();
                         }
