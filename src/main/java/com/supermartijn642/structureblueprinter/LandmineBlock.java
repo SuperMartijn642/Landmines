@@ -159,8 +159,7 @@ public class LandmineBlock extends BaseBlock {
     public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag){
         list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).format());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
-            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.AQUA).format());
-        if(this.type.reusable.get())
-            list.add(TextComponents.translation("landmines.info.reusable").color(TextFormatting.AQUA).format());
+            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).format());
+        list.add(TextComponents.translation("landmines.info.reusable", TextComponents.translation("landmines.info.reusable." + this.type.reusable.get()).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).format());
     }
 }
