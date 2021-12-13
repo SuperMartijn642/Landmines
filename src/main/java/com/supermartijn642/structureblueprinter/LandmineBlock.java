@@ -146,8 +146,7 @@ public class LandmineBlock extends BaseBlock implements IWaterLoggable {
     public void appendHoverText(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> list, ITooltipFlag flag){
         list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
-            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.AQUA).get());
-        if(this.type.reusable.get())
-            list.add(TextComponents.translation("landmines.info.reusable").color(TextFormatting.AQUA).get());
+            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).get());
+        list.add(TextComponents.translation("landmines.info.reusable", TextComponents.translation("landmines.info.reusable." + this.type.reusable.get()).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).get());
     }
 }
