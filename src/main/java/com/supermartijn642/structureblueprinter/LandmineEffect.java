@@ -175,7 +175,7 @@ public interface LandmineEffect {
         if(!world.isRemote){
             int spawnRange = LandminesConfig.zombieRange.get();
             int spawns = 0, targetSpawns = LandminesConfig.zombieCount.get();
-            for(int attempts = 0; attempts < 20; attempts++){
+            for(int attempts = 0; attempts < Math.max(20, targetSpawns * 3); attempts++){
                 int x = (int)((world.rand.nextDouble() - 0.5) * 2 * spawnRange);
                 int y = world.rand.nextInt(5) - 2;
                 int z = (int)((world.rand.nextDouble() - 0.5) * 2 * spawnRange);
