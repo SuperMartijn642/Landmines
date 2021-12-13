@@ -17,7 +17,7 @@ license="All rights reserved"
 # The modid of the mod
 modId="landmines" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.0.1" #mandatory
+version="1.0.2" #mandatory
  # A display name for the mod
 displayName="Landmines" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
@@ -55,13 +55,13 @@ description='''Landmines adds landmines that can explode, teleport, throw potion
 [[dependencies.landmines]]
     modId="supermartijn642corelib"
     mandatory=true
-    versionRange="[1.0.9,)"
+    versionRange="[1.0.15,)"
     ordering="NONE"
     side="BOTH"
 # Add a dependency on SuperMartijn642's Config Lib
 [[dependencies.landmines]]
     modId="supermartijn642configlib"
     mandatory=true
-    versionRange="[1.0.8,)"
+    versionRange="[1.0.9,)"
     ordering="NONE"
     side="BOTH"
