@@ -82,9 +82,9 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.32'
 
     // Core lib
-    compile fg.deobf('curse.maven:supermartijn642s-core-lib-454372:3357863')
+    compile fg.deobf('curse.maven:supermartijn642s-core-lib-454372:3543827')
     // Config lib
-    compile fg.deobf('curse.maven:supermartijn642s-config-lib-438332:3357667')
+    compile fg.deobf('curse.maven:supermartijn642s-config-lib-438332:3413938')
 
     // Just Enough Items
     runtimeOnly fg.deobf('curse.maven:jei-238222:3373521')
