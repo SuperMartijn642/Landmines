@@ -1,4 +1,4 @@
-package com.supermartijn642.structureblueprinter;
+package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.gui.ScreenUtils;

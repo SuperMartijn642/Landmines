@@ -1,4 +1,4 @@
-package com.supermartijn642.structureblueprinter;
+package com.supermartijn642.landmines;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
