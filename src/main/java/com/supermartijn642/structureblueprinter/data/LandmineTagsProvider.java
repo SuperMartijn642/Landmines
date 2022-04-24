@@ -2,6 +2,7 @@ package com.supermartijn642.structureblueprinter.data;
 
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -17,6 +18,6 @@ public class LandmineTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(){
-        this.tag(ItemTags.bind("landmines:stone_pressure_plates")).add(Items.STONE_PRESSURE_PLATE, Items.POLISHED_BLACKSTONE_PRESSURE_PLATE);
+        this.tag(ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates"))).add(Items.STONE_PRESSURE_PLATE, Items.POLISHED_BLACKSTONE_PRESSURE_PLATE);
     }
 }

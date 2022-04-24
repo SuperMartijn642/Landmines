@@ -20,8 +20,8 @@ public class LandmineRecipeProvider extends RecipeProvider {
         ShapedRecipeBuilder.shaped(LandmineType.EXPLOSIVE::getItem)
             .pattern(" A ")
             .pattern("BCB")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.TNT)
             .unlockedBy("has_tnt", has(() -> Items.TNT))
             .save(recipeConsumer);
@@ -31,11 +31,11 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern("DDD")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
-            .define('C', ItemTags.createOptional(new ResourceLocation("forge", "dusts/redstone")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
+            .define('C', ItemTags.create(new ResourceLocation("forge", "dusts/redstone")))
             .define('D', () -> Items.GLASS_BOTTLE)
-            .unlockedBy("has_redstone", has(ItemTags.createOptional(new ResourceLocation("forge", "dusts/redstone"))))
+            .unlockedBy("has_redstone", has(ItemTags.create(new ResourceLocation("forge", "dusts/redstone"))))
             .save(recipeConsumer);
     };
     public static final Consumer<Consumer<FinishedRecipe>> LAUNCH = recipeConsumer -> {
@@ -43,40 +43,40 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern("DED")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.SLIME_BLOCK)
-            .define('D', ItemTags.createOptional(new ResourceLocation("forge", "dusts/redstone")))
+            .define('D', ItemTags.create(new ResourceLocation("forge", "dusts/redstone")))
             .define('E', () -> Items.PISTON)
-            .unlockedBy("has_redstone", has(ItemTags.createOptional(new ResourceLocation("forge", "dusts/redstone"))))
+            .unlockedBy("has_redstone", has(ItemTags.create(new ResourceLocation("forge", "dusts/redstone"))))
             .save(recipeConsumer);
     };
     public static final Consumer<Consumer<FinishedRecipe>> TELEPORT = recipeConsumer -> {
         ShapedRecipeBuilder.shaped(LandmineType.TELEPORT::getItem)
             .pattern(" A ")
             .pattern("BCB")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
-            .define('C', ItemTags.createOptional(new ResourceLocation("forge", "ender_pearls")))
-            .unlockedBy("has_ender_pearl", has(ItemTags.createOptional(new ResourceLocation("forge", "ender_pearls"))))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
+            .define('C', ItemTags.create(new ResourceLocation("forge", "ender_pearls")))
+            .unlockedBy("has_ender_pearl", has(ItemTags.create(new ResourceLocation("forge", "ender_pearls"))))
             .save(recipeConsumer);
     };
     public static final Consumer<Consumer<FinishedRecipe>> FIRE = recipeConsumer -> {
         ShapedRecipeBuilder.shaped(LandmineType.FIRE::getItem)
             .pattern(" A ")
             .pattern("BCB")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
-            .define('C', ItemTags.createOptional(new ResourceLocation("forge", "netherrack")))
-            .unlockedBy("has_netherrack", has(ItemTags.createOptional(new ResourceLocation("forge", "netherrack"))))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
+            .define('C', ItemTags.create(new ResourceLocation("forge", "netherrack")))
+            .unlockedBy("has_netherrack", has(ItemTags.create(new ResourceLocation("forge", "netherrack"))))
             .save(recipeConsumer);
     };
     public static final Consumer<Consumer<FinishedRecipe>> SNOW = recipeConsumer -> {
         ShapedRecipeBuilder.shaped(LandmineType.SNOW::getItem)
             .pattern(" A ")
             .pattern("BCB")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.PACKED_ICE)
             .unlockedBy("has_ice", has(() -> Items.ICE))
             .save(recipeConsumer);
@@ -86,8 +86,8 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern("CCC")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.ROTTEN_FLESH)
             .unlockedBy("has_rotten_flesh", has(() -> Items.ROTTEN_FLESH))
             .save(recipeConsumer);
@@ -97,10 +97,10 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern("DED")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.DISPENSER)
-            .define('D', ItemTags.createOptional(new ResourceLocation("forge", "dusts/redstone")))
+            .define('D', ItemTags.create(new ResourceLocation("forge", "dusts/redstone")))
             .define('E', () -> Items.SHULKER_SHELL)
             .unlockedBy("has_dispenser", has(() -> Items.SHULKER_SHELL))
             .save(recipeConsumer);
@@ -110,10 +110,10 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern(" D ")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.END_ROD)
-            .define('D', ItemTags.createOptional(new ResourceLocation("forge", "storage_blocks/iron")))
+            .define('D', ItemTags.create(new ResourceLocation("forge", "storage_blocks/iron")))
             .unlockedBy("has_end_rod", has(() -> Items.END_ROD))
             .save(recipeConsumer);
     };
@@ -122,8 +122,8 @@ public class LandmineRecipeProvider extends RecipeProvider {
             .pattern(" A ")
             .pattern("BCB")
             .pattern("DDD")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
             .define('C', () -> Items.DISPENSER)
             .define('D', () -> Items.ARROW)
             .unlockedBy("has_dispenser", has(() -> Items.DISPENSER))
@@ -133,10 +133,10 @@ public class LandmineRecipeProvider extends RecipeProvider {
         ShapedRecipeBuilder.shaped(LandmineType.FAKE::getItem)
             .pattern(" A ")
             .pattern("BCB")
-            .define('A', ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates")))
-            .define('B', ItemTags.createOptional(new ResourceLocation("forge", "ingots/iron")))
-            .define('C', ItemTags.createOptional(new ResourceLocation("minecraft", "planks")))
-            .unlockedBy("has_pressure_plate", has(ItemTags.createOptional(new ResourceLocation("landmines", "stone_pressure_plates"))))
+            .define('A', ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates")))
+            .define('B', ItemTags.create(new ResourceLocation("forge", "ingots/iron")))
+            .define('C', ItemTags.create(new ResourceLocation("minecraft", "planks")))
+            .unlockedBy("has_pressure_plate", has(ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates"))))
             .save(recipeConsumer);
     };
 
