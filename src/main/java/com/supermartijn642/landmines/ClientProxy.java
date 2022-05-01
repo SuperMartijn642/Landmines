@@ -1,4 +1,4 @@
-package com.supermartijn642.structureblueprinter;
+package com.supermartijn642.landmines;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
