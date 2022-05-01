@@ -1,7 +1,7 @@
-package com.supermartijn642.structureblueprinter.data;
+package com.supermartijn642.landmines.data;
 
-import com.supermartijn642.structureblueprinter.LandmineBlock;
-import com.supermartijn642.structureblueprinter.LandmineType;
+import com.supermartijn642.landmines.LandmineBlock;
+import com.supermartijn642.landmines.LandmineType;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;

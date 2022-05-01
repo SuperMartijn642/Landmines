@@ -1,4 +1,4 @@
-package com.supermartijn642.structureblueprinter;
+package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlock;
