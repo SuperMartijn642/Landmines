@@ -1,6 +1,6 @@
-package com.supermartijn642.structureblueprinter.data;
+package com.supermartijn642.landmines.data;
 
-import com.supermartijn642.structureblueprinter.LandmineType;
+import com.supermartijn642.landmines.LandmineType;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;

@@ -1,6 +1,6 @@
-package com.supermartijn642.structureblueprinter;
+package com.supermartijn642.landmines;
 
-import com.supermartijn642.structureblueprinter.data.*;
+import com.supermartijn642.landmines.data.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.CreativeModeTab;
