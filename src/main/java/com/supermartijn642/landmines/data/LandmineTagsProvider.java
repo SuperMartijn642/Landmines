@@ -1,4 +1,4 @@
-package com.supermartijn642.structureblueprinter.data;
+package com.supermartijn642.landmines.data;
 
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Items;
