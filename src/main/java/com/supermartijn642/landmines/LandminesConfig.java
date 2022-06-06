@@ -67,7 +67,7 @@ public class LandminesConfig {
 
         builder.push("Teleport Landmine");
         teleportReusable = builder.comment("Should the teleport landmine be reusable?").define("teleportReusable", true);
-        teleportRange = builder.comment("What is the max range entities can be teleported to?").define("teleportRange", 3d, 16, 100);
+        teleportRange = builder.comment("What is the max range entities can be teleported to?").define("teleportRange", 16d, 3, 100);
         builder.pop();
 
         builder.push("Fire Landmine");
