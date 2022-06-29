@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " A ",
-    "BCB",
-    "DED"
-  ],
   "key": {
     "A": {
       "tag": "landmines:stone_pressure_plates"
@@ -22,6 +17,11 @@
       "item": "minecraft:piston"
     }
   },
+  "pattern": [
+    " A ",
+    "BCB",
+    "DED"
+  ],
   "result": {
     "item": "landmines:launch_landmine"
   }

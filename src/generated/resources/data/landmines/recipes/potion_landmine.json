@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " A ",
-    "BCB",
-    "DDD"
-  ],
   "key": {
     "A": {
       "tag": "landmines:stone_pressure_plates"
@@ -19,6 +14,11 @@
       "item": "minecraft:glass_bottle"
     }
   },
+  "pattern": [
+    " A ",
+    "BCB",
+    "DDD"
+  ],
   "result": {
     "item": "landmines:potion_landmine"
   }

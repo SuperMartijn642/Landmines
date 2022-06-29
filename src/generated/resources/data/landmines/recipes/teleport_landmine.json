@@ -1,9 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " A ",
-    "BCB"
-  ],
   "key": {
     "A": {
       "tag": "landmines:stone_pressure_plates"
@@ -15,6 +11,10 @@
       "tag": "forge:ender_pearls"
     }
   },
+  "pattern": [
+    " A ",
+    "BCB"
+  ],
   "result": {
     "item": "landmines:teleport_landmine"
   }

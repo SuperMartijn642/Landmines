@@ -77,7 +77,7 @@ public enum LandmineType {
             throw new IllegalStateException("Blocks have already been registered!");
 
         this.block = new LandmineBlock(this);
-        registry.register(this.block);
+        registry.register(this.getSuffix() + "_landmine", this.block);
     }
 
     public void registerTileEntity(IForgeRegistry<BlockEntityType<?>> registry){
@@ -87,8 +87,7 @@ public enum LandmineType {
             throw new IllegalStateException("Blocks must be registered before registering tile entity types!");
 
         this.tileEntityType = BlockEntityType.Builder.of(this::getTileEntity, this.block).build(null);
-        this.tileEntityType.setRegistryName(this.getSuffix() + "_landmine_tile_entity");
-        registry.register(this.tileEntityType);
+        registry.register(this.getSuffix() + "_landmine_tile_entity", this.tileEntityType);
     }
 
     public void registerItem(IForgeRegistry<Item> registry){
@@ -98,7 +97,6 @@ public enum LandmineType {
             throw new IllegalStateException("Blocks must be registered before registering items!");
 
         this.item = new BlockItem(this.block, new Item.Properties().tab(Landmines.GROUP));
-        this.item.setRegistryName(this.block.getRegistryName());
-        registry.register(this.item);
+        registry.register(this.getSuffix() + "_landmine", this.item);
     }
 }
