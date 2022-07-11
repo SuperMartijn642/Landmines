@@ -2,12 +2,13 @@ package com.supermartijn642.landmines;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 /**
  * Created 7/9/2021 by SuperMartijn642
@@ -26,7 +27,8 @@ public class LandmineRenderer implements BlockEntityRenderer<LandmineTileEntity>
         if(tileEntity.getState() != LandmineTileEntity.LandmineState.UNARMED)
             state = state.setValue(LandmineBlock.ON, (tileEntity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
         BakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), renderTypeBuffer.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, model, 0, 0, 0, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+        for(RenderType renderType : model.getRenderTypes(state, RandomSource.create(42), ModelData.EMPTY))
+            ClientUtils.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), renderTypeBuffer.getBuffer(renderType), state, model, 0, 0, 0, combinedLight, combinedOverlay, ModelData.EMPTY, renderType);
 
         matrixStack.popPose();
     }
