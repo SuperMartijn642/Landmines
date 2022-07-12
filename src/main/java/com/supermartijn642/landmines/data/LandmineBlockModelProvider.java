@@ -3,7 +3,7 @@ package com.supermartijn642.landmines.data;
 import com.supermartijn642.landmines.LandmineType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.data.event.GatherDataEvent;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
