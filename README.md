@@ -15,43 +15,43 @@ For more info and downloads, check out the project on [CurseForge](https://www.c
 The Explosive Landmine explodes when it is triggered.
  
 
-#### Potion Landmine Potion Landmine
+#### Potion Landmine
 The Potion Landmine requires a splash potion or lingering potion and throws the potion when it is triggered, it is also reusable.
  
 
-#### Fire Landmine Fire Landmine
+#### Fire Landmine
 The Fire Landmine requires a fire charge and sets players and mobs on fire when triggered, it is also reusable.
  
 
-#### Launch Landmine Launch Landmine
+#### Launch Landmine
 The Launch Landmine launches players and mobs into the air when triggered and it is reusable.
  
 
-#### Levitation Landmine Levitation Landmine
+#### Levitation Landmine
 The Levitation Landmine gives players and mobs levitation when triggered and it is reusable.
  
 
-#### Lightning Landmine Lightning Landmine
+#### Lightning Landmine
 The Lightning Landmine strikes lightning when triggered and it is reusable.
  
 
-#### Teleportation Landmine Teleportation Landmine
+#### Teleportation Landmine
 The Teleportation Landmine requires chorus fruit to be armed and teleports players and mobs when triggered, it is also reusable.
  
 
-#### Snow Landmine Snow Landmine
+#### Snow Landmine
 The Snow Landmine requires a snow block to be armed and spawns snow when triggered, it is also reusable.
  
 
-#### Arrow Landmine Arrow Landmine
+#### Arrow Landmine
 The Arrow Landmine requires an arrow to be armed and shoots out arrows when triggered, it is also reusable.
  
 
-#### Zombie Landmine Zombie Landmine
+#### Zombie Landmine
 The Zombie Landmine spawns zombies when triggered.
  
 
-#### Fake Landmine Fake Landmine
+#### Fake Landmine
 The Fake Landmine is disguised as an Explosive Landmine, however does nothing when triggered.
  
 
