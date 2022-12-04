@@ -1,9 +1,9 @@
 {
   "variants": {
-    "on=false": {
+    "on\u003dfalse": {
       "model": "landmines:block/types/potion_landmine_off"
     },
-    "on=true": {
+    "on\u003dtrue": {
       "model": "landmines:block/types/potion_landmine_on"
     }
   }
