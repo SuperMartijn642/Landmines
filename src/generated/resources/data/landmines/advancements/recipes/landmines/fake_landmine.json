@@ -1,12 +1,28 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:fake_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:fake_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/fake_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/fake_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_pressure_plate": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "landmines:fake_landmine"
+      }
+    },
+    "recipe_condition": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -15,18 +31,17 @@
           }
         ]
       }
-    },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "landmines:fake_landmine"
-      }
     }
   },
   "requirements": [
     [
-      "has_pressure_plate",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:fake_landmine"
+    ]
+  }
 }

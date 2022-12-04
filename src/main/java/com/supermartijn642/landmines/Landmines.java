@@ -1,18 +1,15 @@
 package com.supermartijn642.landmines;
 
-import com.supermartijn642.landmines.data.*;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
+import com.supermartijn642.core.item.CreativeItemGroup;
+import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
+import com.supermartijn642.core.registry.RegistrationHandler;
+import com.supermartijn642.core.registry.RegistryEntryAcceptor;
+import com.supermartijn642.landmines.generators.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.ObjectHolder;
 
 /**
  * Created 7/7/2020 by SuperMartijn642
@@ -20,56 +17,36 @@ import net.minecraftforge.registries.ObjectHolder;
 @Mod("landmines")
 public class Landmines {
 
-    public static final ItemGroup GROUP = new ItemGroup("landmines") {
-        @Override
-        public ItemStack makeIcon(){
-            return new ItemStack(LandmineType.EXPLOSIVE.getItem());
-        }
-    };
+    public static final CreativeItemGroup GROUP = CreativeItemGroup.create("landmines", LandmineType.EXPLOSIVE.getItem());
 
-    @ObjectHolder("landmines:landmine_tile_entity")
-    public static TileEntityType<LandmineTileEntity> landmine_tile_entity;
-
-    @ObjectHolder("landmines:trigger_sound")
+    @RegistryEntryAcceptor(namespace = "landmines", identifier = "trigger_sound", registry = RegistryEntryAcceptor.Registry.SOUND_EVENTS)
     public static SoundEvent trigger_sound;
 
     public Landmines(){
+        register();
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> LandminesClient::register);
+        registerGenerators();
     }
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ModEvents {
-
-        @SubscribeEvent
-        public static void onBlockRegistry(RegistryEvent.Register<Block> e){
-            for(LandmineType type : LandmineType.values())
-                type.registerBlock(e.getRegistry());
+    private static void register(){
+        RegistrationHandler handler = RegistrationHandler.get("landmines");
+        // Blocks, block entity types, and items
+        for(LandmineType type : LandmineType.values()){
+            handler.registerBlockCallback(type::registerBlock);
+            handler.registerBlockEntityTypeCallback(type::registerBlockEntity);
+            handler.registerItemCallback(type::registerItem);
         }
-
-        @SubscribeEvent
-        public static void onTileEntityRegistry(RegistryEvent.Register<TileEntityType<?>> e){
-            for(LandmineType type : LandmineType.values())
-                type.registerTileEntity(e.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void onItemRegistry(RegistryEvent.Register<Item> e){
-            for(LandmineType type : LandmineType.values())
-                type.registerItem(e.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void onGatherData(GatherDataEvent e){
-            e.getGenerator().addProvider(new LandmineBlockStateProvider(e));
-            e.getGenerator().addProvider(new LandmineLanguageProvider(e));
-            e.getGenerator().addProvider(new LandmineLootTableProvider(e));
-            e.getGenerator().addProvider(new LandmineTagsProvider(e));
-            e.getGenerator().addProvider(new LandmineRecipeProvider(e));
-        }
-
-        @SubscribeEvent
-        public static void onSoundRegistry(RegistryEvent.Register<SoundEvent> e) {
-            e.getRegistry().register(new SoundEvent(new ResourceLocation("landmines", "trigger_sound")).setRegistryName("trigger_sound"));
-        }
+        // Trigger sound
+        handler.registerSoundEvent("trigger_sound", new SoundEvent(new ResourceLocation("landmines", "trigger_sound")));
     }
 
+    private static void registerGenerators(){
+        GeneratorRegistrationHandler handler = GeneratorRegistrationHandler.get("landmines");
+        handler.addGenerator(LandmineModelGenerator::new);
+        handler.addGenerator(LandmineBlockStateGenerator::new);
+        handler.addGenerator(LandmineLanguageGenerator::new);
+        handler.addGenerator(LandmineLootTableGenerator::new);
+        handler.addGenerator(LandmineRecipeGenerator::new);
+        handler.addGenerator(LandmineTagGenerator::new);
+    }
 }
