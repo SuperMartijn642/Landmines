@@ -1,8 +1,9 @@
 package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.block.BaseTileEntity;
+import com.supermartijn642.core.block.BaseBlockEntity;
 import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.block.TickableBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +18,7 @@ import net.minecraft.world.phys.AABB;
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineTileEntity extends BaseTileEntity {
+public class LandmineBlockEntity extends BaseBlockEntity implements TickableBlockEntity {
 
     public final LandmineType type;
     private LandmineState state = LandmineState.UNARMED, lastState = this.state;
@@ -26,12 +27,13 @@ public class LandmineTileEntity extends BaseTileEntity {
     private ItemStack stack = ItemStack.EMPTY;
     public int renderTransitionTicks = 0;
 
-    public LandmineTileEntity(LandmineType type, BlockPos pos, BlockState state){
-        super(type.getTileEntityType(), pos, state);
+    public LandmineBlockEntity(LandmineType type, BlockPos pos, BlockState state){
+        super(type.getBlockEntityType(), pos, state);
         this.type = type;
     }
 
-    public void tick(){
+    @Override
+    public void update(){
         if(this.state == LandmineState.ARMED){
             if(this.cooldown > 0)
                 this.cooldown--;
