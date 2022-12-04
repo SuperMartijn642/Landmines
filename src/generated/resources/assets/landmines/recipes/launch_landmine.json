@@ -6,24 +6,32 @@
     "DED"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:stone_pressure_plate",
-      "data": 0
-    },
+    "A": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:stone_pressure_plate"
+      }
+    ],
     "B": {
       "type": "forge:ore_dict",
       "ore": "ingotIron"
     },
-    "C": {
-      "item": "minecraft:slime"
-    },
+    "C": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:slime"
+      }
+    ],
     "D": {
       "type": "forge:ore_dict",
       "ore": "dustRedstone"
     },
-    "E": {
-      "item": "minecraft:piston"
-    }
+    "E": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:piston"
+      }
+    ]
   },
   "result": {
     "item": "landmines:launch_landmine"

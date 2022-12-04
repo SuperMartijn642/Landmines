@@ -6,17 +6,22 @@
     " D "
   ],
   "key": {
-    "A": {
-      "item": "minecraft:stone_pressure_plate",
-      "data": 0
-    },
+    "A": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:stone_pressure_plate"
+      }
+    ],
     "B": {
       "type": "forge:ore_dict",
       "ore": "ingotIron"
     },
-    "C": {
-      "item": "minecraft:end_rod"
-    },
+    "C": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:end_rod"
+      }
+    ],
     "D": {
       "type": "forge:ore_dict",
       "ore": "blockIron"

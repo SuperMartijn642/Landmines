@@ -1,32 +1,45 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:teleport_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:teleport_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/teleport_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/teleport_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_ender_pearl": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "tag": "forge:ender_pearls"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "landmines:teleport_landmine"
       }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          null
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "has_ender_pearl",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:teleport_landmine"
+    ]
+  }
 }

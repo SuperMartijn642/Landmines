@@ -6,17 +6,22 @@
     "CCC"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:stone_pressure_plate",
-      "data": 0
-    },
+    "A": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:stone_pressure_plate"
+      }
+    ],
     "B": {
       "type": "forge:ore_dict",
       "ore": "ingotIron"
     },
-    "C": {
-      "item": "minecraft:rotten_flesh"
-    }
+    "C": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:rotten_flesh"
+      }
+    ]
   },
   "result": {
     "item": "landmines:zombie_landmine"

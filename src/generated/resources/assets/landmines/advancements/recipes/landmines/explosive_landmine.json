@@ -1,32 +1,48 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:explosive_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:explosive_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_tnt": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:tnt"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "landmines:explosive_landmine"
       }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:tnt",
+            "data": 0
+          }
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "has_tnt",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:explosive_landmine"
+    ]
+  }
 }

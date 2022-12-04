@@ -1,16 +1,16 @@
 package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.ToolType;
 import com.supermartijn642.core.block.BaseBlock;
+import com.supermartijn642.core.block.BlockProperties;
 import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.block.EntityHoldingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
@@ -22,17 +22,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineBlock extends BaseBlock {
+public class LandmineBlock extends BaseBlock implements EntityHoldingBlock {
 
     private static final BlockShape SHAPE = BlockShape.or(
         BlockShape.createBlockShape(3, 0, 3, 13, 0.75, 13),
@@ -44,59 +46,51 @@ public class LandmineBlock extends BaseBlock {
     public final LandmineType type;
 
     public LandmineBlock(LandmineType type){
-        super(type.getSuffix() + "_landmine", false, Properties.create(Material.IRON, EnumDyeColor.GRAY).harvestTool(ToolType.PICKAXE).hardnessAndResistance(0.5f));
+        super(false, BlockProperties.create(Material.IRON, EnumDyeColor.GRAY).destroyTime(0.5f).explosionResistance(0.5f));
         this.type = type;
-
-        this.setCreativeTab(Landmines.GROUP);
 
         this.setDefaultState(this.getDefaultState().withProperty(ON, false));
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos){
-        TileEntity entity = world.getTileEntity(pos);
-        return entity instanceof LandmineTileEntity && !((LandmineTileEntity)entity).hasShape() ? BlockShape.empty().simplify() : SHAPE.simplify();
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess level, BlockPos pos){
+        TileEntity entity = level.getTileEntity(pos);
+        return entity instanceof LandmineBlockEntity && !((LandmineBlockEntity)entity).hasShape() ? BlockShape.empty().simplify() : SHAPE.simplify();
     }
 
-    private static boolean canSurvive(World world, BlockPos pos){
-        BlockFaceShape shape = world.getBlockState(pos.down()).getBlockFaceShape(world, pos.down(), EnumFacing.UP);
+    @Override
+    public void neighborChanged(IBlockState state, World level, BlockPos pos, Block block, BlockPos fromPos){
+        if(state.getBlock() == this && !level.isRemote && !canSurvive(level, pos)){
+            this.dropBlockAsItem(level, pos, state, 0);
+            level.setBlockToAir(pos);
+        }
+    }
+
+    private static boolean canSurvive(World level, BlockPos pos){
+        BlockFaceShape shape = level.getBlockState(pos.down()).getBlockFaceShape(level, pos.down(), EnumFacing.UP);
         return shape == BlockFaceShape.CENTER || shape == BlockFaceShape.CENTER_BIG || shape == BlockFaceShape.CENTER_SMALL ||
             shape == BlockFaceShape.MIDDLE_POLE || shape == BlockFaceShape.MIDDLE_POLE_THICK || shape == BlockFaceShape.MIDDLE_POLE_THIN ||
             shape == BlockFaceShape.SOLID;
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, BlockPos pos){
-        return world.getBlockState(pos).getBlock().isReplaceable(world, pos) && canSurvive(world, pos);
+    public boolean canPlaceBlockAt(World level, BlockPos pos){
+        return level.getBlockState(pos).getBlock().isReplaceable(level, pos) && canSurvive(level, pos);
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state){
-        if(state.getBlock() == this && !canSurvive(world, pos)){
-            if(world.getBlockState(pos).getBlock() == this){
-                this.dropBlockAsItem(world, pos, state, 0);
-                world.setBlockToAir(pos);
+    public void onBlockAdded(World level, BlockPos pos, IBlockState state){
+        if(state.getBlock() == this && !canSurvive(level, pos)){
+            if(level.getBlockState(pos).getBlock() == this){
+                this.dropBlockAsItem(level, pos, state, 0);
+                level.setBlockToAir(pos);
             }
         }
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos){
-        if(state.getBlock() == this && !world.isRemote && !canSurvive(world, pos)){
-            this.dropBlockAsItem(world, pos, state, 0);
-            world.setBlockToAir(pos);
-        }
-    }
-
-    @Override
-    public boolean hasTileEntity(IBlockState state){
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state){
-        return this.type.getTileEntity();
+    public TileEntity createNewBlockEntity(){
+        return this.type.getBlockEntity();
     }
 
     @Override
@@ -105,26 +99,27 @@ public class LandmineBlock extends BaseBlock {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity){
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if(tileEntity instanceof LandmineTileEntity)
-            ((LandmineTileEntity)tileEntity).onEntityCollide(entity);
+    public void onEntityCollidedWithBlock(World level, BlockPos pos, IBlockState state, Entity entity){
+        TileEntity blockEntity = level.getTileEntity(pos);
+        if(blockEntity instanceof LandmineBlockEntity)
+            ((LandmineBlockEntity)blockEntity).onEntityCollide(entity);
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if(tileEntity instanceof LandmineTileEntity)
-            return ((LandmineTileEntity)tileEntity).onRightClick(player, hand);
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+    protected InteractionFeedback interact(IBlockState state, World level, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing hitSide, Vec3d hitLocation){
+        TileEntity entity = level.getTileEntity(pos);
+        if(entity instanceof LandmineBlockEntity)
+            return ((LandmineBlockEntity)entity).onRightClick(player, hand) ? InteractionFeedback.SUCCESS : InteractionFeedback.PASS;
+        return super.interact(state, level, pos, player, hand, hitSide, hitLocation);
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state){
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if(tileEntity instanceof LandmineTileEntity)
-            InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), ((LandmineTileEntity)tileEntity).getStack());
-        super.breakBlock(world, pos, state);
+    public void breakBlock(World level, BlockPos pos, IBlockState state){
+        TileEntity entity = level.getTileEntity(pos);
+        if(entity instanceof LandmineBlockEntity)
+            InventoryHelper.spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ((LandmineBlockEntity)entity).getStack());
+
+        super.breakBlock(level, pos, state);
     }
 
     @Override
@@ -156,10 +151,10 @@ public class LandmineBlock extends BaseBlock {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag){
-        list.add(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.AQUA).format());
+    protected void appendItemInformation(ItemStack stack, @Nullable IBlockAccess level, Consumer<ITextComponent> info, boolean advanced){
+        info.accept(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(TextFormatting.GRAY).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
-            list.add(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).format());
-        list.add(TextComponents.translation("landmines.info.reusable", TextComponents.translation("landmines.info.reusable." + this.type.reusable.get()).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).format());
+            info.accept(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).get());
+        info.accept(TextComponents.translation("landmines.info.reusable", TextComponents.translation("landmines.info.reusable." + this.type.reusable.get()).color(TextFormatting.GOLD).get()).color(TextFormatting.GRAY).get());
     }
 }

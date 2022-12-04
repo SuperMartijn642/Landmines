@@ -1,32 +1,48 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:zombie_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:zombie_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/zombie_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/zombie_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_rotten_flesh": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:rotten_flesh"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "landmines:zombie_landmine"
       }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:rotten_flesh",
+            "data": 0
+          }
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "has_rotten_flesh",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:zombie_landmine"
+    ]
+  }
 }

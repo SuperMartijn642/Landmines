@@ -6,24 +6,32 @@
     "DED"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:stone_pressure_plate",
-      "data": 0
-    },
+    "A": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:stone_pressure_plate"
+      }
+    ],
     "B": {
       "type": "forge:ore_dict",
       "ore": "ingotIron"
     },
-    "C": {
-      "item": "minecraft:dispenser"
-    },
+    "C": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:dispenser"
+      }
+    ],
     "D": {
       "type": "forge:ore_dict",
       "ore": "dustRedstone"
     },
-    "E": {
-      "item": "minecraft:shulker_shell"
-    }
+    "E": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:shulker_shell"
+      }
+    ]
   },
   "result": {
     "item": "landmines:levitation_landmine"

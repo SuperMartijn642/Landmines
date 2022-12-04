@@ -6,20 +6,28 @@
     "DDD"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:stone_pressure_plate",
-      "data": 0
-    },
+    "A": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:stone_pressure_plate"
+      }
+    ],
     "B": {
       "type": "forge:ore_dict",
       "ore": "ingotIron"
     },
-    "C": {
-      "item": "minecraft:dispenser"
-    },
-    "D": {
-      "item": "minecraft:arrow"
-    }
+    "C": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:dispenser"
+      }
+    ],
+    "D": [
+      {
+        "type": "minecraft:item",
+        "item": "minecraft:arrow"
+      }
+    ]
   },
   "result": {
     "item": "landmines:arrows_landmine"

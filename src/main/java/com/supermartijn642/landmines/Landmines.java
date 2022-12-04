@@ -1,61 +1,52 @@
 package com.supermartijn642.landmines;
 
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import com.supermartijn642.core.CommonUtils;
+import com.supermartijn642.core.item.CreativeItemGroup;
+import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
+import com.supermartijn642.core.registry.RegistrationHandler;
+import com.supermartijn642.core.registry.RegistryEntryAcceptor;
+import com.supermartijn642.landmines.generators.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created 7/7/2020 by SuperMartijn642
  */
-@Mod(modid = Landmines.MODID, name = Landmines.NAME, version = Landmines.VERSION, dependencies = Landmines.DEPENDENCIES)
+@Mod(modid = "@mod_id@", name = "@mod_name@", version = "@mod_version@", dependencies = "required-after:forge@@forge_dependency@;required-after:supermartijn642corelib@@core_library_dependency@;required-after:supermartijn642configlib@@config_library_dependency@")
 public class Landmines {
 
-    public static final String MODID = "landmines";
-    public static final String NAME = "Landmines";
-    public static final String VERSION = "1.0.2a";
-    public static final String DEPENDENCIES = "required-after:supermartijn642corelib@[1.0.15,);required-after:supermartijn642configlib@[1.0.9,)";
+    public static final CreativeItemGroup GROUP = CreativeItemGroup.create("landmines", LandmineType.EXPLOSIVE::getItem);
 
-    public static final CreativeTabs GROUP = new CreativeTabs("landmines") {
-        @Override
-        public ItemStack getTabIconItem(){
-            return new ItemStack(LandmineType.EXPLOSIVE.getItem());
-        }
-    };
-
-    @GameRegistry.ObjectHolder("landmines:trigger_sound")
+    @RegistryEntryAcceptor(namespace = "landmines", identifier = "trigger_sound", registry = RegistryEntryAcceptor.Registry.SOUND_EVENTS)
     public static SoundEvent trigger_sound;
 
     public Landmines(){
+        register();
+        if(CommonUtils.getEnvironmentSide().isClient())
+            LandminesClient.register();
+        registerGenerators();
     }
 
-    @Mod.EventBusSubscriber
-    public static class ModEvents {
-
-        @SubscribeEvent
-        public static void onBlockRegistry(RegistryEvent.Register<Block> e){
-            for(LandmineType type : LandmineType.values()){
-                type.registerBlock(e.getRegistry());
-                type.registerTileEntity();
-            }
+    private static void register(){
+        RegistrationHandler handler = RegistrationHandler.get("landmines");
+        // Blocks, block entity types, and items
+        for(LandmineType type : LandmineType.values()){
+            handler.registerBlockCallback(type::registerBlock);
+            handler.registerBlockEntityTypeCallback(type::registerBlockEntity);
+            handler.registerItemCallback(type::registerItem);
         }
-
-        @SubscribeEvent
-        public static void onItemRegistry(RegistryEvent.Register<Item> e){
-            for(LandmineType type : LandmineType.values())
-                type.registerItem(e.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void onSoundRegistry(RegistryEvent.Register<SoundEvent> e){
-            e.getRegistry().register(new SoundEvent(new ResourceLocation("landmines", "trigger_sound")).setRegistryName("trigger_sound"));
-        }
+        // Trigger sound
+        handler.registerSoundEvent("trigger_sound", () -> new SoundEvent(new ResourceLocation("landmines", "trigger_sound")));
     }
 
+    private static void registerGenerators(){
+        GeneratorRegistrationHandler handler = GeneratorRegistrationHandler.get("landmines");
+        handler.addGenerator(LandmineModelGenerator::new);
+        handler.addGenerator(LandmineBlockStateGenerator::new);
+        handler.addGenerator(LandmineLanguageGenerator::new);
+        handler.addGenerator(LandmineLootTableGenerator::new);
+        handler.addGenerator(LandmineRecipeGenerator::new);
+        handler.addGenerator(LandmineTagGenerator::new);
+    }
 }

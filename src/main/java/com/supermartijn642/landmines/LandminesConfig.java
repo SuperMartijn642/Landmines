@@ -1,6 +1,7 @@
 package com.supermartijn642.landmines;
 
-import com.supermartijn642.configlib.ModConfigBuilder;
+import com.supermartijn642.configlib.api.ConfigBuilders;
+import com.supermartijn642.configlib.api.IConfigBuilder;
 
 import java.util.function.Supplier;
 
@@ -44,7 +45,7 @@ public class LandminesConfig {
 
 
     static{
-        ModConfigBuilder builder = new ModConfigBuilder("landmines");
+        IConfigBuilder builder = ConfigBuilders.newTomlConfig("landmines", null, false);
 
         builder.push("General");
 

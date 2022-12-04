@@ -1,15 +1,15 @@
 package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.block.BaseTileEntity;
+import com.supermartijn642.core.block.BaseBlockEntity;
 import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.block.TickableBlockEntity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
@@ -17,84 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 /**
  * Created 7/8/2021 by SuperMartijn642
  */
-public class LandmineTileEntity extends BaseTileEntity implements ITickable {
-
-    public static class ExplosiveTileEntity extends LandmineTileEntity {
-
-        public ExplosiveTileEntity(){
-            super(LandmineType.EXPLOSIVE);
-        }
-    }
-
-    public static class PotionTileEntity extends LandmineTileEntity {
-
-        public PotionTileEntity(){
-            super(LandmineType.POTION);
-        }
-    }
-
-    public static class LaunchTileEntity extends LandmineTileEntity {
-
-        public LaunchTileEntity(){
-            super(LandmineType.LAUNCH);
-        }
-    }
-
-    public static class TeleportTileEntity extends LandmineTileEntity {
-
-        public TeleportTileEntity(){
-            super(LandmineType.TELEPORT);
-        }
-    }
-
-    public static class FireTileEntity extends LandmineTileEntity {
-
-        public FireTileEntity(){
-            super(LandmineType.FIRE);
-        }
-    }
-
-    public static class SnowTileEntity extends LandmineTileEntity {
-
-        public SnowTileEntity(){
-            super(LandmineType.SNOW);
-        }
-    }
-
-    public static class ZombieTileEntity extends LandmineTileEntity {
-
-        public ZombieTileEntity(){
-            super(LandmineType.ZOMBIE);
-        }
-    }
-
-    public static class LevitationTileEntity extends LandmineTileEntity {
-
-        public LevitationTileEntity(){
-            super(LandmineType.LEVITATION);
-        }
-    }
-
-    public static class LightningTileEntity extends LandmineTileEntity {
-
-        public LightningTileEntity(){
-            super(LandmineType.LIGHTNING);
-        }
-    }
-
-    public static class ArrowsTileEntity extends LandmineTileEntity {
-
-        public ArrowsTileEntity(){
-            super(LandmineType.ARROWS);
-        }
-    }
-
-    public static class FakeTileEntity extends LandmineTileEntity {
-
-        public FakeTileEntity(){
-            super(LandmineType.FAKE);
-        }
-    }
+public class LandmineBlockEntity extends BaseBlockEntity implements TickableBlockEntity {
 
     public final LandmineType type;
     private LandmineState state = LandmineState.UNARMED, lastState = this.state;
@@ -103,7 +26,8 @@ public class LandmineTileEntity extends BaseTileEntity implements ITickable {
     private ItemStack stack = ItemStack.EMPTY;
     public int renderTransitionTicks = 0;
 
-    public LandmineTileEntity(LandmineType type){
+    public LandmineBlockEntity(LandmineType type){
+        super(type.getBlockEntityType());
         this.type = type;
     }
 

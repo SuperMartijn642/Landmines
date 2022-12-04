@@ -1,33 +1,45 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:launch_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:launch_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/launch_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/launch_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_redstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "type": "forge:ore_dict",
-      "ore": "dustRedstone"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "landmines:launch_landmine"
       }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          null
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "has_redstone",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:launch_landmine"
+    ]
+  }
 }

@@ -1,10 +1,10 @@
 {
   "variants": {
-    "on=false": {
-      "model": "landmines:types/explosive_landmine_off"
-    },
     "on=true": {
       "model": "landmines:types/explosive_landmine_on"
+    },
+    "on=false": {
+      "model": "landmines:types/explosive_landmine_off"
     }
   }
 }

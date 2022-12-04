@@ -1,32 +1,48 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "landmines:arrows_landmine"
-    ]
+  "display": {
+    "icon": {
+      "item": "landmines:arrows_landmine"
+    },
+    "title": {
+      "translate": "landmines.advancement.recipes/landmines/arrows_landmine.title"
+    },
+    "description": {
+      "translate": "landmines.advancement.recipes/landmines/arrows_landmine.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
   },
   "criteria": {
-    "has_dispenser": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:dispenser"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "landmines:arrows_landmine"
       }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:dispenser",
+            "data": 0
+          }
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "has_dispenser",
-      "has_the_recipe"
+      "has_the_recipe",
+      "recipe_condition"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "landmines:arrows_landmine"
+    ]
+  }
 }
