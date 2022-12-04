@@ -2,9 +2,9 @@ package com.supermartijn642.landmines;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
+import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,35 +13,35 @@ import net.minecraftforge.client.model.data.ModelData;
 /**
  * Created 7/9/2021 by SuperMartijn642
  */
-public class LandmineRenderer implements BlockEntityRenderer<LandmineTileEntity> {
+public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlockEntity> {
 
     private static final int TRANSITION_TIME = 10;
     private static final int BLINK_TIME = 8;
 
     @Override
-    public void render(LandmineTileEntity tileEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLight, int combinedOverlay){
-        matrixStack.pushPose();
-        matrixStack.translate(0, getRenderOffset(tileEntity, partialTicks), 0);
+    public void render(LandmineBlockEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay){
+        poseStack.pushPose();
+        poseStack.translate(0, getRenderOffset(entity, partialTicks), 0);
 
-        BlockState state = tileEntity.getRenderBlockState();
-        if(tileEntity.getState() != LandmineTileEntity.LandmineState.UNARMED)
-            state = state.setValue(LandmineBlock.ON, (tileEntity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
+        BlockState state = entity.getRenderBlockState();
+        if(entity.getState() != LandmineBlockEntity.LandmineState.UNARMED)
+            state = state.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
         BakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
         for(RenderType renderType : model.getRenderTypes(state, RandomSource.create(42), ModelData.EMPTY))
-            ClientUtils.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), renderTypeBuffer.getBuffer(renderType), state, model, 0, 0, 0, combinedLight, combinedOverlay, ModelData.EMPTY, renderType);
+            ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(renderType), state, model, 0, 0, 0, combinedLight, combinedOverlay, ModelData.EMPTY, renderType);
 
-        matrixStack.popPose();
+        poseStack.popPose();
     }
 
-    private static double getRenderOffset(LandmineTileEntity tileEntity, float partialTicks){
-        double targetPosition = getTargetPosition(tileEntity.getState());
-        double fromPosition = getTargetPosition(tileEntity.getLastState());
-        return fromPosition + (targetPosition - fromPosition) * Math.min(1, (tileEntity.renderTransitionTicks + partialTicks) / TRANSITION_TIME);
+    private static double getRenderOffset(LandmineBlockEntity entity, float partialTicks){
+        double targetPosition = getTargetPosition(entity.getState());
+        double fromPosition = getTargetPosition(entity.getLastState());
+        return fromPosition + (targetPosition - fromPosition) * Math.min(1, (entity.renderTransitionTicks + partialTicks) / TRANSITION_TIME);
     }
 
-    private static double getTargetPosition(LandmineTileEntity.LandmineState state){
-        return state == LandmineTileEntity.LandmineState.UNARMED ? 0 :
-            state == LandmineTileEntity.LandmineState.ARMED ? -0.125 :
-                state == LandmineTileEntity.LandmineState.TRIGGERED ? 0 : 0;
+    private static double getTargetPosition(LandmineBlockEntity.LandmineState state){
+        return state == LandmineBlockEntity.LandmineState.UNARMED ? 0 :
+            state == LandmineBlockEntity.LandmineState.ARMED ? -0.125 :
+                state == LandmineBlockEntity.LandmineState.TRIGGERED ? 0 : 0;
     }
 }

@@ -1,14 +1,16 @@
 package com.supermartijn642.landmines;
 
+import com.supermartijn642.core.block.BaseBlockEntityType;
+import com.supermartijn642.core.item.BaseBlockItem;
+import com.supermartijn642.core.item.ItemProperties;
+import com.supermartijn642.core.registry.RegistrationHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Locale;
 import java.util.function.Predicate;
@@ -31,9 +33,9 @@ public enum LandmineType {
     ARROWS(LandminesConfig.arrowsReusable, false, stack -> stack.getItem() == Items.ARROW, Items.ARROW, LandmineEffect.ARROWS, "Arrow", "Shoots out arrows when triggered."),
     FAKE(LandminesConfig.fakeReusable, false, null, null, LandmineEffect.NOTHING, "Fake", "A fake landmine disguised as an Explosive Landmine.");
 
-    private BlockEntityType<LandmineTileEntity> tileEntityType;
+    private BaseBlockEntityType<LandmineBlockEntity> blockEntityType;
     private LandmineBlock block;
-    private BlockItem item;
+    private BaseBlockItem item;
     public final Supplier<Boolean> reusable;
     public final boolean instantTrigger;
     public final Predicate<ItemStack> itemFilter;
@@ -60,43 +62,43 @@ public enum LandmineType {
         return this.block;
     }
 
-    public LandmineTileEntity getTileEntity(BlockPos pos, BlockState state){
-        return new LandmineTileEntity(this, pos, state);
+    public LandmineBlockEntity getBlockEntity(BlockPos pos, BlockState state){
+        return new LandmineBlockEntity(this, pos, state);
     }
 
-    public BlockEntityType<LandmineTileEntity> getTileEntityType(){
-        return this.tileEntityType;
+    public BaseBlockEntityType<LandmineBlockEntity> getBlockEntityType(){
+        return this.blockEntityType;
     }
 
-    public BlockItem getItem(){
+    public BaseBlockItem getItem(){
         return this.item;
     }
 
-    public void registerBlock(IForgeRegistry<Block> registry){
+    public void registerBlock(RegistrationHandler.Helper<Block> helper){
         if(this.block != null)
             throw new IllegalStateException("Blocks have already been registered!");
 
         this.block = new LandmineBlock(this);
-        registry.register(this.getSuffix() + "_landmine", this.block);
+        helper.register(this.getSuffix() + "_landmine", this.block);
     }
 
-    public void registerTileEntity(IForgeRegistry<BlockEntityType<?>> registry){
-        if(this.tileEntityType != null)
-            throw new IllegalStateException("Tile entities have already been registered!");
+    public void registerBlockEntity(RegistrationHandler.Helper<BlockEntityType<?>> helper){
+        if(this.blockEntityType != null)
+            throw new IllegalStateException("Block entities have already been registered!");
         if(this.block == null)
-            throw new IllegalStateException("Blocks must be registered before registering tile entity types!");
+            throw new IllegalStateException("Blocks must be registered before registering block entity types!");
 
-        this.tileEntityType = BlockEntityType.Builder.of(this::getTileEntity, this.block).build(null);
-        registry.register(this.getSuffix() + "_landmine_tile_entity", this.tileEntityType);
+        this.blockEntityType = BaseBlockEntityType.create(this::getBlockEntity, this.block);
+        helper.register(this.getSuffix() + "_landmine_tile_entity", this.blockEntityType);
     }
 
-    public void registerItem(IForgeRegistry<Item> registry){
+    public void registerItem(RegistrationHandler.Helper<Item> helper){
         if(this.item != null)
             throw new IllegalStateException("Items have already been registered!");
         if(this.block == null)
             throw new IllegalStateException("Blocks must be registered before registering items!");
 
-        this.item = new BlockItem(this.block, new Item.Properties().tab(Landmines.GROUP));
-        registry.register(this.getSuffix() + "_landmine", this.item);
+        this.item = new BaseBlockItem(this.block, ItemProperties.create().group(Landmines.GROUP));
+        helper.register(this.getSuffix() + "_landmine", this.item);
     }
 }
