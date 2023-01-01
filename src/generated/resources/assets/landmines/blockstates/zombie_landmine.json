@@ -1,9 +1,9 @@
 {
   "variants": {
-    "on\u003dtrue": {
+    "on=true": {
       "model": "landmines:block/types/zombie_landmine_on"
     },
-    "on\u003dfalse": {
+    "on=false": {
       "model": "landmines:block/types/zombie_landmine_off"
     }
   }
