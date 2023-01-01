@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:explosive_landmine"
+      "item": "landmines:lightning_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.title"
+      "translate": "landmines.advancement.recipes/lightning_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.description"
+      "translate": "landmines.advancement.recipes/lightning_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:explosive_landmine"
+        "recipe": "landmines:lightning_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:tnt",
+            "item": "minecraft:end_rod",
             "data": 0
           }
         ]
@@ -42,7 +42,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:explosive_landmine"
+      "landmines:lightning_landmine"
     ]
   }
 }

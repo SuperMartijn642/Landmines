@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:levitation_landmine"
+      "item": "landmines:zombie_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/levitation_landmine.title"
+      "translate": "landmines.advancement.recipes/zombie_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/levitation_landmine.description"
+      "translate": "landmines.advancement.recipes/zombie_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:levitation_landmine"
+        "recipe": "landmines:zombie_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:shulker_shell",
+            "item": "minecraft:rotten_flesh",
             "data": 0
           }
         ]
@@ -42,7 +42,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:levitation_landmine"
+      "landmines:zombie_landmine"
     ]
   }
 }

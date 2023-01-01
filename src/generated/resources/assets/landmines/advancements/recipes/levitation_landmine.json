@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:potion_landmine"
+      "item": "landmines:levitation_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/potion_landmine.title"
+      "translate": "landmines.advancement.recipes/levitation_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/potion_landmine.description"
+      "translate": "landmines.advancement.recipes/levitation_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,14 +19,17 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:potion_landmine"
+        "recipe": "landmines:levitation_landmine"
       }
     },
     "recipe_condition": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          null
+          {
+            "item": "minecraft:shulker_shell",
+            "data": 0
+          }
         ]
       }
     }
@@ -39,7 +42,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:potion_landmine"
+      "landmines:levitation_landmine"
     ]
   }
 }

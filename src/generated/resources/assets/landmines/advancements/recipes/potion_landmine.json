@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:lightning_landmine"
+      "item": "landmines:potion_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/lightning_landmine.title"
+      "translate": "landmines.advancement.recipes/potion_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/lightning_landmine.description"
+      "translate": "landmines.advancement.recipes/potion_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,17 +19,14 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:lightning_landmine"
+        "recipe": "landmines:potion_landmine"
       }
     },
     "recipe_condition": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          {
-            "item": "minecraft:end_rod",
-            "data": 0
-          }
+          null
         ]
       }
     }
@@ -42,7 +39,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:lightning_landmine"
+      "landmines:potion_landmine"
     ]
   }
 }
