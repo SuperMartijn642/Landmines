@@ -1,9 +1,9 @@
 {
   "variants": {
-    "on\u003dfalse": {
+    "on=false": {
       "model": "landmines:block/types/teleport_landmine_off"
     },
-    "on\u003dtrue": {
+    "on=true": {
       "model": "landmines:block/types/teleport_landmine_on"
     }
   }

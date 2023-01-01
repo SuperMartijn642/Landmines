@@ -1,9 +1,9 @@
 {
   "variants": {
-    "on\u003dfalse": {
+    "on=false": {
       "model": "landmines:block/types/levitation_landmine_off"
     },
-    "on\u003dtrue": {
+    "on=true": {
       "model": "landmines:block/types/levitation_landmine_on"
     }
   }
