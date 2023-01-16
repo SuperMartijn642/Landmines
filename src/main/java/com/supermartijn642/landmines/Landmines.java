@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod("landmines")
 public class Landmines {
 
-    public static final CreativeItemGroup GROUP = CreativeItemGroup.create("landmines", LandmineType.EXPLOSIVE.getItem());
+    public static final CreativeItemGroup GROUP = CreativeItemGroup.create("landmines", LandmineType.EXPLOSIVE::getItem);
 
     @RegistryEntryAcceptor(namespace = "landmines", identifier = "trigger_sound", registry = RegistryEntryAcceptor.Registry.SOUND_EVENTS)
     public static SoundEvent trigger_sound;
