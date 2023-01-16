@@ -1,7 +1,6 @@
 {
   "landmines.block.snow_landmine": "Snow Landmine",
   "landmines.block.zombie_landmine": "Zombie Landmine",
-  "landmines": "Landmines",
   "landmines.info.reusable.false": "False",
   "landmines.block.lightning_landmine": "Lightning Landmine",
   "landmines.launch.info": "Launches players and mobs into the air when triggered.",

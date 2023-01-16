@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:explosive_landmine"
+      "item": "landmines:teleport_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.title"
+      "translate": "landmines.advancement.recipes/misc/teleport_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.description"
+      "translate": "landmines.advancement.recipes/misc/teleport_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:explosive_landmine"
+        "recipe": "landmines:teleport_landmine"
       }
     },
     "recipe_condition": {
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:tnt"
-            ]
+            "tag": "forge:ender_pearls"
           }
         ]
       }
@@ -43,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:explosive_landmine"
+      "landmines:teleport_landmine"
     ]
   }
 }

@@ -1,0 +1,96 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/levitation_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/zombie_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/snow_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/fire_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/launch_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/landmine_base"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/lightning_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/arrows_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/explosive_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/fire_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/launch_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/zombie_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/teleport_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/potion_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/fake_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/potion_landmine_on"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/lightning_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/levitation_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/snow_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/explosive_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/fake_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/teleport_landmine_off"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "landmines:block/types/arrows_landmine_on"
+    }
+  ]
+}
