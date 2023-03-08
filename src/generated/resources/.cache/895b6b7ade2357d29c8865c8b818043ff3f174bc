@@ -1,0 +1,12 @@
+// 1.19.3	2023-03-08T16:02:04.1679398	Landmines/Landmines Loot Table Generator
+bad2cb82f6f9393d3a0d5b42a45c82ffc9b2ac1b data\landmines\loot_tables\blocks\explosive_landmine.json
+a8980d02e41583cfbc3608e113c4151ddfedabff data\landmines\loot_tables\blocks\potion_landmine.json
+f89259082f2be84abc706f20fc4d5800f8904b1a data\landmines\loot_tables\blocks\launch_landmine.json
+c16b4e1a58830d494b3e646d32a116568be0f050 data\landmines\loot_tables\blocks\levitation_landmine.json
+521e8b7d30f4b337ea4c3cf1712206c2baa1964f data\landmines\loot_tables\blocks\snow_landmine.json
+9fa6a76ec1eb1959507c2da4f617d81485d21e9b data\landmines\loot_tables\blocks\arrows_landmine.json
+2f5523c49c9917ebb22561f31f9278089f72d07a data\landmines\loot_tables\blocks\teleport_landmine.json
+9b24efb633152a8a715aa8fdf9d029aabf366795 data\landmines\loot_tables\blocks\fire_landmine.json
+058d0d013f0ea04727d89296b40f7a21afdac13f data\landmines\loot_tables\blocks\lightning_landmine.json
+0faf8ec57065423e616ad52f37b8e0e8e4afc8cc data\landmines\loot_tables\blocks\zombie_landmine.json
+7c22734e413b2dc0556023f0e3e988cb2cb7f071 data\landmines\loot_tables\blocks\fake_landmine.json

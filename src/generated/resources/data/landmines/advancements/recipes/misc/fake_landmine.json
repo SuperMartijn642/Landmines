@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:levitation_landmine"
+      "item": "landmines:fake_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/levitation_landmine.title"
+      "translate": "landmines.advancement.recipes/misc/fake_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/levitation_landmine.description"
+      "translate": "landmines.advancement.recipes/misc/fake_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:levitation_landmine"
+        "recipe": "landmines:fake_landmine"
       }
     },
     "recipe_condition": {
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:shulker_shell"
-            ]
+            "tag": "landmines:stone_pressure_plates"
           }
         ]
       }
@@ -43,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:levitation_landmine"
+      "landmines:fake_landmine"
     ]
   }
 }

@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:explosive_landmine"
+      "item": "landmines:levitation_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.title"
+      "translate": "landmines.advancement.recipes/misc/levitation_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/explosive_landmine.description"
+      "translate": "landmines.advancement.recipes/misc/levitation_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:explosive_landmine"
+        "recipe": "landmines:levitation_landmine"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:tnt"
+              "minecraft:shulker_shell"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:explosive_landmine"
+      "landmines:levitation_landmine"
     ]
   }
 }

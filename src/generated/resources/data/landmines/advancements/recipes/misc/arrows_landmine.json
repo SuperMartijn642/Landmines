@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:teleport_landmine"
+      "item": "landmines:arrows_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/landmines/teleport_landmine.title"
+      "translate": "landmines.advancement.recipes/misc/arrows_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/landmines/teleport_landmine.description"
+      "translate": "landmines.advancement.recipes/misc/arrows_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:teleport_landmine"
+        "recipe": "landmines:arrows_landmine"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:ender_pearl"
+              "minecraft:dispenser"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:teleport_landmine"
+      "landmines:arrows_landmine"
     ]
   }
 }

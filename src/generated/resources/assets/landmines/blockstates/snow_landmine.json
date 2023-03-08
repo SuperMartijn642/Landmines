@@ -1,10 +1,10 @@
 {
   "variants": {
-    "on=false": {
-      "model": "landmines:block/types/snow_landmine_off"
-    },
     "on=true": {
       "model": "landmines:block/types/snow_landmine_on"
+    },
+    "on=false": {
+      "model": "landmines:block/types/snow_landmine_off"
     }
   }
 }
