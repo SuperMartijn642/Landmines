@@ -3,12 +3,13 @@ package com.supermartijn642.landmines.generators;
 import com.supermartijn642.core.generator.RecipeGenerator;
 import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.landmines.LandmineType;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
 
 /**
  * Created 04/12/2022 by SuperMartijn642
@@ -22,14 +23,14 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
     @Override
     public void generate(){
         // Pressure plates tag
-        TagKey<Item> pressurePlates = ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates"));
+        TagKey<Item> pressurePlates = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("landmines", "stone_pressure_plates"));
 
         // Explosion
         this.shaped(LandmineType.EXPLOSIVE.getItem())
             .pattern(" A ")
             .pattern("BCB")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.TNT)
             .unlockedBy(Items.TNT);
 
@@ -39,10 +40,10 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern("DDD")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
-            .input('C', Tags.Items.DUSTS_REDSTONE)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
+            .input('C', ConventionalItemTags.REDSTONE_DUSTS)
             .input('D', Items.GLASS_BOTTLE)
-            .unlockedBy(Tags.Items.DUSTS_REDSTONE);
+            .unlockedBy(ConventionalItemTags.REDSTONE_DUSTS);
 
         // Launch
         this.shaped(LandmineType.LAUNCH.getItem())
@@ -50,36 +51,36 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern("DED")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.SLIME_BLOCK)
-            .input('D', Tags.Items.DUSTS_REDSTONE)
+            .input('D', ConventionalItemTags.REDSTONE_DUSTS)
             .input('E', Items.PISTON)
-            .unlockedBy(Tags.Items.DUSTS_REDSTONE);
+            .unlockedBy(ConventionalItemTags.REDSTONE_DUSTS);
 
         // Teleport
         this.shaped(LandmineType.TELEPORT.getItem())
             .pattern(" A ")
             .pattern("BCB")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
-            .input('C', Tags.Items.ENDER_PEARLS)
-            .unlockedBy(Tags.Items.ENDER_PEARLS);
+            .input('B', ConventionalItemTags.IRON_INGOTS)
+            .input('C', Items.ENDER_PEARL)
+            .unlockedBy(Items.ENDER_PEARL);
 
         // Fire
         this.shaped(LandmineType.FIRE.getItem())
             .pattern(" A ")
             .pattern("BCB")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
-            .input('C', Tags.Items.NETHERRACK)
-            .unlockedBy(Tags.Items.NETHERRACK);
+            .input('B', ConventionalItemTags.IRON_INGOTS)
+            .input('C', Items.NETHERRACK)
+            .unlockedBy(Items.NETHERRACK);
 
         // Snow
         this.shaped(LandmineType.SNOW.getItem())
             .pattern(" A ")
             .pattern("BCB")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.PACKED_ICE)
             .unlockedBy(Items.ICE);
 
@@ -89,7 +90,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern("CCC")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.ROTTEN_FLESH)
             .unlockedBy(Items.ROTTEN_FLESH);
 
@@ -99,9 +100,9 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern("DED")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.DISPENSER)
-            .input('D', Tags.Items.DUSTS_REDSTONE)
+            .input('D', ConventionalItemTags.REDSTONE_DUSTS)
             .input('E', Items.SHULKER_SHELL)
             .unlockedBy(Items.SHULKER_SHELL);
 
@@ -111,9 +112,9 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern(" D ")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.END_ROD)
-            .input('D', Tags.Items.STORAGE_BLOCKS_IRON)
+            .input('D', Items.IRON_BLOCK)
             .unlockedBy(Items.END_ROD);
 
         // Arrows
@@ -122,7 +123,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .pattern("DDD")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.DISPENSER)
             .input('D', Items.ARROW)
             .unlockedBy(Items.DISPENSER);
@@ -132,7 +133,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern(" A ")
             .pattern("BCB")
             .input('A', pressurePlates)
-            .input('B', Tags.Items.INGOTS_IRON)
+            .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', ItemTags.PLANKS)
             .unlockedBy(pressurePlates);
     }

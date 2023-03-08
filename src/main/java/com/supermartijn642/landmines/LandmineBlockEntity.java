@@ -2,7 +2,6 @@ package com.supermartijn642.landmines;
 
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlockEntity;
-import com.supermartijn642.core.block.BlockShape;
 import com.supermartijn642.core.block.TickableBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 /**
  * Created 7/8/2021 by SuperMartijn642
@@ -136,18 +134,13 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
     }
 
     @Override
-    public AABB getRenderBoundingBox(){
-        return BlockShape.createBlockShape(3, -2, 3, 13, 1.125, 13).offset(this.getBlockPos()).simplify();
-    }
-
-    @Override
     protected CompoundTag writeData(){
         CompoundTag compound = new CompoundTag();
         compound.putInt("state", this.state.index);
         compound.putInt("lastState", this.lastState.index);
         compound.putBoolean("collision", this.collision);
         compound.putInt("cooldown", this.cooldown);
-        compound.put("stack", this.stack.serializeNBT());
+        compound.put("stack", this.stack.save(new CompoundTag()));
         compound.putInt("renderTransitionTicks", this.renderTransitionTicks);
         return compound;
     }

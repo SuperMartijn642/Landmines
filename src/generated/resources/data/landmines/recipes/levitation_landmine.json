@@ -10,13 +10,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:iron_ingots"
     },
     "C": {
       "item": "minecraft:dispenser"
     },
     "D": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:redstone_dusts"
     },
     "E": {
       "item": "minecraft:shulker_shell"

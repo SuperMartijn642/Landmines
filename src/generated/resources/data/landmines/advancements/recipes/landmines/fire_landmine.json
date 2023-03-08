@@ -27,7 +27,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:netherrack"
+            "items": [
+              "minecraft:netherrack"
+            ]
           }
         ]
       }

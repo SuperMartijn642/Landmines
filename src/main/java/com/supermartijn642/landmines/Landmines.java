@@ -5,26 +5,23 @@ import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
 import com.supermartijn642.core.registry.RegistrationHandler;
 import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import com.supermartijn642.landmines.generators.*;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Created 7/7/2020 by SuperMartijn642
  */
-@Mod("landmines")
-public class Landmines {
+public class Landmines implements ModInitializer {
 
     public static final CreativeItemGroup GROUP = CreativeItemGroup.create("landmines", LandmineType.EXPLOSIVE::getItem);
 
     @RegistryEntryAcceptor(namespace = "landmines", identifier = "trigger_sound", registry = RegistryEntryAcceptor.Registry.SOUND_EVENTS)
     public static SoundEvent trigger_sound;
 
-    public Landmines(){
+    @Override
+    public void onInitialize(){
         register();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> LandminesClient::register);
         registerGenerators();
     }
 

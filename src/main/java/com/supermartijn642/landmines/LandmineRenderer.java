@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
 
 /**
  * Created 7/9/2021 by SuperMartijn642
@@ -26,7 +25,7 @@ public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlock
         if(entity.getState() != LandmineBlockEntity.LandmineState.UNARMED)
             state = state.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
         BakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, model, 0, 0, 0, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, model, 0, 0, 0, combinedLight, combinedOverlay);
 
         poseStack.popPose();
     }
