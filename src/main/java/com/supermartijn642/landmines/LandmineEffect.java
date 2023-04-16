@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -55,7 +54,7 @@ public interface LandmineEffect {
                 for(LivingEntity entity : entities){
                     double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
                     if(distance < 16 && entity.isSensitiveToWater())
-                        entity.hurt(DamageSource.indirectMagic(entity, null), 1);
+                        entity.hurt(entity.damageSources().indirectMagic(entity, null), 1);
                 }
             }else if(!mobEffects.isEmpty()){
                 if(stack.getItem() == Items.LINGERING_POTION){ // lingering potion
