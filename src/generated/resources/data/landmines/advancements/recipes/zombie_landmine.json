@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:arrows_landmine"
+      "item": "landmines:zombie_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/arrows_landmine.title"
+      "translate": "landmines.advancement.recipes/zombie_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/arrows_landmine.description"
+      "translate": "landmines.advancement.recipes/zombie_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:arrows_landmine"
+        "recipe": "landmines:zombie_landmine"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:dispenser"
+              "minecraft:rotten_flesh"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:arrows_landmine"
+      "landmines:zombie_landmine"
     ]
   }
 }

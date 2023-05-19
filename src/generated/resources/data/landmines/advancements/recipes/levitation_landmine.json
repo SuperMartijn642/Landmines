@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:lightning_landmine"
+      "item": "landmines:levitation_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/lightning_landmine.title"
+      "translate": "landmines.advancement.recipes/levitation_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/lightning_landmine.description"
+      "translate": "landmines.advancement.recipes/levitation_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:lightning_landmine"
+        "recipe": "landmines:levitation_landmine"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:end_rod"
+              "minecraft:shulker_shell"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:lightning_landmine"
+      "landmines:levitation_landmine"
     ]
   }
 }

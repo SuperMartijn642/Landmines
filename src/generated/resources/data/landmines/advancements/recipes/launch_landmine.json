@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:teleport_landmine"
+      "item": "landmines:launch_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/teleport_landmine.title"
+      "translate": "landmines.advancement.recipes/launch_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/teleport_landmine.description"
+      "translate": "landmines.advancement.recipes/launch_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:teleport_landmine"
+        "recipe": "landmines:launch_landmine"
       }
     },
     "recipe_condition": {
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:ender_pearl"
-            ]
+            "tag": "c:redstone_dusts"
           }
         ]
       }
@@ -43,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:teleport_landmine"
+      "landmines:launch_landmine"
     ]
   }
 }

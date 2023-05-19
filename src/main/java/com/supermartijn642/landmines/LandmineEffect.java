@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -40,7 +42,7 @@ public interface LandmineEffect {
 
     LandmineEffect EXPLOSION = (level, pos, stack) -> {
         if(!level.isClientSide)
-            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, LandminesConfig.explosionCausesFire.get(), LandminesConfig.explosionBreakBlocks.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, LandminesConfig.explosionCausesFire.get(), LandminesConfig.explosionBreakBlocks.get() ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
     };
 
     LandmineEffect POTION = (level, pos, stack) -> {
@@ -54,7 +56,7 @@ public interface LandmineEffect {
                 for(LivingEntity entity : entities){
                     double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
                     if(distance < 16 && entity.isSensitiveToWater())
-                        entity.hurt(entity.damageSources().indirectMagic(entity, null), 1);
+                        entity.hurt(DamageSource.indirectMagic(entity, null), 1);
                 }
             }else if(!mobEffects.isEmpty()){
                 if(stack.getItem() == Items.LINGERING_POTION){ // lingering potion

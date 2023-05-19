@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:fake_landmine"
+      "item": "landmines:fire_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/fake_landmine.title"
+      "translate": "landmines.advancement.recipes/fire_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/fake_landmine.description"
+      "translate": "landmines.advancement.recipes/fire_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:fake_landmine"
+        "recipe": "landmines:fire_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "landmines:stone_pressure_plates"
+            "items": [
+              "minecraft:netherrack"
+            ]
           }
         ]
       }
@@ -41,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:fake_landmine"
+      "landmines:fire_landmine"
     ]
   }
 }
