@@ -25,6 +25,7 @@ public class LandminesConfig {
     public static final Supplier<Double> teleportRange;
 
     public static final Supplier<Boolean> fireReusable;
+    public static final Supplier<Integer> fireDuration;
 
     public static final Supplier<Boolean> snowReusable;
     public static final Supplier<Integer> snowRange;
@@ -73,6 +74,7 @@ public class LandminesConfig {
 
         builder.push("Fire Landmine");
         fireReusable = builder.comment("Should the fire landmine be reusable?").define("fireReusable", true);
+        fireDuration = builder.comment("For how long should entities be set on fire in seconds?").define("fireDuration", 5, 1, 30);
         builder.pop();
 
         builder.push("Snow Landmine");
