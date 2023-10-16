@@ -141,7 +141,7 @@ public interface LandmineEffect {
         level.getEntitiesOfClass(Entity.class, new AABB(pos).inflate(0.7))
             .forEach(entity -> {
                 if(!(entity instanceof Player && ((Player)entity).isCreative()))
-                    entity.setSecondsOnFire(5);
+                    entity.setSecondsOnFire(LandminesConfig.fireDuration.get());
             });
     };
 
