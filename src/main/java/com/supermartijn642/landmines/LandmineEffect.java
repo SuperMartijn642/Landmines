@@ -210,7 +210,7 @@ public interface LandmineEffect {
             int arrows = LandminesConfig.arrowsCount.get();
             for(int i = 0; i < arrows; i++){
                 double angle = Math.PI * 2 / arrows * i;
-                Arrow entity = new Arrow(level, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle));
+                Arrow entity = new Arrow(level, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle), stack);
                 entity.setDeltaMovement(0.2 * Math.cos(angle) + level.getRandom().nextDouble() * 0.2 - 0.1, 0.2 + level.getRandom().nextDouble() * 0.2 - 0.1, 0.2 * Math.sin(angle) + level.getRandom().nextDouble() * 0.2 - 0.1);
                 entity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 level.addFreshEntity(entity);
