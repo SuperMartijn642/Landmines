@@ -34,7 +34,7 @@ public class Landmines implements ModInitializer {
             handler.registerItemCallback(type::registerItem);
         }
         // Trigger sound
-        handler.registerSoundEvent("trigger_sound", SoundEvent.createVariableRangeEvent(new ResourceLocation("landmines", "trigger_sound")));
+        handler.registerSoundEvent("trigger_sound", SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("landmines", "trigger_sound")));
     }
 
     private static void registerGenerators(){
