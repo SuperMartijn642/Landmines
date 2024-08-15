@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:fake_landmine"
+      "id": "landmines:fake_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/fake_landmine.title"
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "landmines:stone_pressure_plates"
+            "items": "#landmines:stone_pressure_plates"
           }
         ]
       }

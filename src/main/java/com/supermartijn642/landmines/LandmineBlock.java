@@ -131,7 +131,7 @@ public class LandmineBlock extends BaseBlock implements EntityHoldingBlock, Simp
     }
 
     @Override
-    protected void appendItemInformation(ItemStack stack, @Nullable BlockGetter level, Consumer<Component> info, boolean advanced){
+    protected void appendItemInformation(ItemStack stack, Consumer<Component> info, boolean advanced){
         info.accept(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(ChatFormatting.GRAY).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
             info.accept(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());

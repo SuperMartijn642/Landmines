@@ -9,13 +9,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:tnt"
     }
   },
   "result": {
-    "item": "landmines:explosive_landmine"
+    "id": "landmines:explosive_landmine"
   }
 }

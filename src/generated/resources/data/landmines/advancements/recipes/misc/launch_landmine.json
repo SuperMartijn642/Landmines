@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:launch_landmine"
+      "id": "landmines:launch_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/launch_landmine.title"
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/redstone"
+            "items": "#c:dusts/redstone"
           }
         ]
       }

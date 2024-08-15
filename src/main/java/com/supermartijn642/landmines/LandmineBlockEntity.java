@@ -1,5 +1,6 @@
 package com.supermartijn642.landmines;
 
+import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.block.BaseBlockEntity;
 import com.supermartijn642.core.block.TickableBlockEntity;
@@ -140,7 +141,7 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
         compound.putInt("lastState", this.lastState.index);
         compound.putBoolean("collision", this.collision);
         compound.putInt("cooldown", this.cooldown);
-        compound.put("stack", this.stack.save(new CompoundTag()));
+        compound.put("stack", this.stack.saveOptional(this.level.registryAccess()));
         compound.putInt("renderTransitionTicks", this.renderTransitionTicks);
         return compound;
     }
@@ -151,7 +152,7 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
         this.lastState = LandmineState.fromIndex(compound.getInt("lastState"));
         this.collision = compound.getBoolean("collision");
         this.cooldown = compound.getInt("cooldown");
-        this.stack = ItemStack.of(compound.getCompound("stack"));
+        this.stack = ItemStack.parseOptional(CommonUtils.getRegistryAccess(), compound.getCompound("stack"));
         this.renderTransitionTicks = compound.getInt("renderTransitionTicks");
     }
 

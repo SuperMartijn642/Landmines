@@ -10,16 +10,16 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "C": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "D": {
       "item": "minecraft:glass_bottle"
     }
   },
   "result": {
-    "item": "landmines:potion_landmine"
+    "id": "landmines:potion_landmine"
   }
 }

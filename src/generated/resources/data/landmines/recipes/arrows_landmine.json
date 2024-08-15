@@ -10,7 +10,7 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:dispenser"
@@ -20,6 +20,6 @@
     }
   },
   "result": {
-    "item": "landmines:arrows_landmine"
+    "id": "landmines:arrows_landmine"
   }
 }
