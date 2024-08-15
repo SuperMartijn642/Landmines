@@ -3,7 +3,7 @@ package com.supermartijn642.landmines.generators;
 import com.supermartijn642.core.generator.RecipeGenerator;
 import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.landmines.LandmineType;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -52,7 +52,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("DED")
             .input('A', pressurePlates)
             .input('B', ConventionalItemTags.IRON_INGOTS)
-            .input('C', Items.SLIME_BLOCK)
+            .input('C', ConventionalItemTags.STORAGE_BLOCKS_SLIME)
             .input('D', ConventionalItemTags.REDSTONE_DUSTS)
             .input('E', Items.PISTON)
             .unlockedBy(ConventionalItemTags.REDSTONE_DUSTS);
@@ -114,7 +114,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .input('A', pressurePlates)
             .input('B', ConventionalItemTags.IRON_INGOTS)
             .input('C', Items.END_ROD)
-            .input('D', Items.IRON_BLOCK)
+            .input('D', ConventionalItemTags.STORAGE_BLOCKS_IRON)
             .unlockedBy(Items.END_ROD);
 
         // Arrows

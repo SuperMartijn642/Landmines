@@ -10,16 +10,16 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:end_rod"
     },
     "D": {
-      "item": "minecraft:iron_block"
+      "tag": "c:storage_blocks/iron"
     }
   },
   "result": {
-    "item": "landmines:lightning_landmine"
+    "id": "landmines:lightning_landmine"
   }
 }

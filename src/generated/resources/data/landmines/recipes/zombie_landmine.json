@@ -10,13 +10,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:rotten_flesh"
     }
   },
   "result": {
-    "item": "landmines:zombie_landmine"
+    "id": "landmines:zombie_landmine"
   }
 }

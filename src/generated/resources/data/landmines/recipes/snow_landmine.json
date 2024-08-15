@@ -9,13 +9,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:packed_ice"
     }
   },
   "result": {
-    "item": "landmines:snow_landmine"
+    "id": "landmines:snow_landmine"
   }
 }

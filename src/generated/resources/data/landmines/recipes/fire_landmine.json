@@ -9,13 +9,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "item": "minecraft:netherrack"
     }
   },
   "result": {
-    "item": "landmines:fire_landmine"
+    "id": "landmines:fire_landmine"
   }
 }

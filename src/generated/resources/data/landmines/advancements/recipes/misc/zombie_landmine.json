@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:zombie_landmine"
+      "id": "landmines:zombie_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/zombie_landmine.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:rotten_flesh"
-            ]
+            "items": "minecraft:rotten_flesh"
           }
         ]
       }

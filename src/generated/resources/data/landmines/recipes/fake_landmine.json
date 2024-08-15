@@ -9,13 +9,13 @@
       "tag": "landmines:stone_pressure_plates"
     },
     "B": {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
     "C": {
       "tag": "minecraft:planks"
     }
   },
   "result": {
-    "item": "landmines:fake_landmine"
+    "id": "landmines:fake_landmine"
   }
 }
