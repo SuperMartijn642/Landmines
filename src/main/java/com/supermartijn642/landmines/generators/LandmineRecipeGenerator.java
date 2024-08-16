@@ -22,7 +22,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
     @Override
     public void generate(){
         // Pressure plates tag
-        TagKey<Item> pressurePlates = ItemTags.create(new ResourceLocation("landmines", "stone_pressure_plates"));
+        TagKey<Item> pressurePlates = ItemTags.create(ResourceLocation.fromNamespaceAndPath("landmines", "stone_pressure_plates"));
 
         // Explosion
         this.shaped(LandmineType.EXPLOSIVE.getItem())

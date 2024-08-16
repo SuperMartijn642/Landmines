@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "landmines:teleport_landmine",
+    "landmines:launch_landmine",
+    "landmines:fire_landmine",
+    "landmines:levitation_landmine",
+    "landmines:zombie_landmine",
+    "landmines:explosive_landmine",
+    "landmines:fake_landmine",
+    "landmines:lightning_landmine",
+    "landmines:arrows_landmine",
+    "landmines:potion_landmine",
+    "landmines:snow_landmine"
+  ]
+}
