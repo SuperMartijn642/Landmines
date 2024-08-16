@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:explosive_landmine"
+      "id": "landmines:explosive_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/explosive_landmine.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:tnt"
-            ]
+            "items": "minecraft:tnt"
           }
         ]
       }

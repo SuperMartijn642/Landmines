@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:arrows_landmine"
+      "id": "landmines:arrows_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/arrows_landmine.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:dispenser"
-            ]
+            "items": "minecraft:dispenser"
           }
         ]
       }

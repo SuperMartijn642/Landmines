@@ -20,6 +20,6 @@
     }
   },
   "result": {
-    "item": "landmines:potion_landmine"
+    "id": "landmines:potion_landmine"
   }
 }

@@ -10,8 +10,8 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "landmines:teleport_landmine"
+          "name": "landmines:teleport_landmine",
+          "type": "minecraft:item"
         }
       ]
     }

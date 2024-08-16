@@ -16,6 +16,6 @@
     }
   },
   "result": {
-    "item": "landmines:teleport_landmine"
+    "id": "landmines:teleport_landmine"
   }
 }

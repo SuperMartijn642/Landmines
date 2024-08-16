@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "landmines:teleport_landmine"
+      "id": "landmines:teleport_landmine"
     },
     "title": {
       "translate": "landmines.advancement.recipes/misc/teleport_landmine.title"
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:ender_pearls"
+            "items": "#forge:ender_pearls"
           }
         ]
       }

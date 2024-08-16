@@ -23,6 +23,6 @@
     }
   },
   "result": {
-    "item": "landmines:launch_landmine"
+    "id": "landmines:launch_landmine"
   }
 }

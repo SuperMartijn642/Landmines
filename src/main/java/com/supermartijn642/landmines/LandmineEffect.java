@@ -1,7 +1,7 @@
 package com.supermartijn642.landmines;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -17,8 +17,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -45,34 +44,28 @@ public interface LandmineEffect {
 
     LandmineEffect POTION = (level, pos, stack) -> {
         if(!level.isClientSide){
-            Potion potion = PotionUtils.getPotion(stack);
-            List<MobEffectInstance> mobEffects = PotionUtils.getMobEffects(stack);
-            boolean isWater = potion == Potions.WATER && mobEffects.isEmpty();
-            if(isWater){ // water potion
+            PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+            if(contents.is(Potions.WATER)){ // water potion
                 AABB area = new AABB(pos).inflate(4, 2, 4);
-                List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, area, LivingEntity::isSensitiveToWater);
+                List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, area, e -> e.isSensitiveToWater() || e.isOnFire());
                 for(LivingEntity entity : entities){
                     double distance = area.getCenter().distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
-                    if(distance < 16 && entity.isSensitiveToWater())
-                        entity.hurt(entity.damageSources().indirectMagic(entity, null), 1);
+                    if(distance < 16){
+                        if(entity.isSensitiveToWater())
+                            entity.hurt(entity.damageSources().indirectMagic(entity, null), 1);
+                        if(entity.isOnFire() && entity.isAlive())
+                            entity.extinguishFire();
+                    }
                 }
-            }else if(!mobEffects.isEmpty()){
+            }else if(contents.hasEffects()){
+                List<MobEffectInstance> mobEffects = contents.customEffects();
                 if(stack.getItem() == Items.LINGERING_POTION){ // lingering potion
                     AreaEffectCloud effectCloud = new AreaEffectCloud(level, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5);
-
                     effectCloud.setRadius(3);
                     effectCloud.setRadiusOnUse(-0.5f);
                     effectCloud.setWaitTime(10);
                     effectCloud.setRadiusPerTick(-effectCloud.getRadius() / effectCloud.getDuration());
-                    effectCloud.setPotion(potion);
-
-                    for(MobEffectInstance effectInstance : PotionUtils.getCustomEffects(stack))
-                        effectCloud.addEffect(new MobEffectInstance(effectInstance));
-
-                    CompoundTag tag = stack.getTag();
-                    if(tag != null && tag.contains("CustomPotionColor", 99))
-                        effectCloud.setFixedColor(tag.getInt("CustomPotionColor"));
-
+                    effectCloud.setPotionContents(contents);
                     level.addFreshEntity(effectCloud);
                 }else{ // splash potion
                     AABB area = new AABB(pos).inflate(4, 2, 4);
@@ -84,13 +77,14 @@ public interface LandmineEffect {
                                 double closenessFactor = 1 - Math.sqrt(distance) / 4;
 
                                 for(MobEffectInstance effectInstance : mobEffects){
-                                    MobEffect effect = effectInstance.getEffect();
+                                    MobEffect effect = effectInstance.getEffect().value();
                                     if(effect.isInstantenous())
                                         effect.applyInstantenousEffect(null, null, entity, effectInstance.getAmplifier(), closenessFactor);
                                     else{
-                                        int duration = (int)(closenessFactor * effectInstance.getDuration() + 0.5);
-                                        if(duration > 20)
-                                            entity.addEffect(new MobEffectInstance(effect, duration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible()));
+                                        int duration = effectInstance.mapDuration(i -> (int)(closenessFactor * i + 0.5));
+                                        MobEffectInstance newEffect = new MobEffectInstance(effectInstance.getEffect(), duration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible());
+                                        if(!newEffect.endsWithin(20))
+                                            entity.addEffect(newEffect);
                                     }
                                 }
                             }
@@ -99,8 +93,8 @@ public interface LandmineEffect {
                 }
             }
 
-            int i = potion.hasInstantEffects() ? 2007 : 2002;
-            level.levelEvent(i, pos, PotionUtils.getColor(stack));
+            int i = contents.potion().get().value().hasInstantEffects() ? 2007 : 2002;
+            level.levelEvent(i, pos, contents.getColor());
         }
     };
 
@@ -141,7 +135,7 @@ public interface LandmineEffect {
         level.getEntitiesOfClass(Entity.class, new AABB(pos).inflate(0.7))
             .forEach(entity -> {
                 if(!(entity instanceof Player && ((Player)entity).isCreative()))
-                    entity.setSecondsOnFire(LandminesConfig.fireDuration.get());
+                    entity.igniteForSeconds(LandminesConfig.fireDuration.get());
             });
     };
 
@@ -202,7 +196,7 @@ public interface LandmineEffect {
 
     LandmineEffect LIGHTNING = (level, pos, stack) -> {
         if(!level.isClientSide)
-            EntityType.LIGHTNING_BOLT.spawn((ServerLevel)level, (ItemStack)null, null, pos, MobSpawnType.TRIGGERED, true, false);
+            EntityType.LIGHTNING_BOLT.spawn((ServerLevel)level, null, null, pos, MobSpawnType.TRIGGERED, true, false);
     };
 
     LandmineEffect ARROWS = (level, pos, stack) -> {
@@ -210,7 +204,7 @@ public interface LandmineEffect {
             int arrows = LandminesConfig.arrowsCount.get();
             for(int i = 0; i < arrows; i++){
                 double angle = Math.PI * 2 / arrows * i;
-                Arrow entity = new Arrow(level, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle));
+                Arrow entity = new Arrow(level, pos.getX() + 0.5 + Math.cos(angle), pos.getY() + 0.2, pos.getZ() + 0.5 + Math.sin(angle), stack.copy());
                 entity.setDeltaMovement(0.2 * Math.cos(angle) + level.getRandom().nextDouble() * 0.2 - 0.1, 0.2 + level.getRandom().nextDouble() * 0.2 - 0.1, 0.2 * Math.sin(angle) + level.getRandom().nextDouble() * 0.2 - 0.1);
                 entity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 level.addFreshEntity(entity);
