@@ -6,21 +6,11 @@
     "DED"
   ],
   "key": {
-    "A": {
-      "tag": "landmines:stone_pressure_plates"
-    },
-    "B": {
-      "tag": "c:ingots/iron"
-    },
-    "C": {
-      "tag": "c:storage_blocks/slime"
-    },
-    "D": {
-      "tag": "c:dusts/redstone"
-    },
-    "E": {
-      "item": "minecraft:piston"
-    }
+    "A": "#landmines:stone_pressure_plates",
+    "B": "#c:ingots/iron",
+    "C": "#c:storage_blocks/slime",
+    "D": "#c:dusts/redstone",
+    "E": "minecraft:piston"
   },
   "result": {
     "id": "landmines:launch_landmine"

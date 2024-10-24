@@ -5,15 +5,9 @@
     "BCB"
   ],
   "key": {
-    "A": {
-      "tag": "landmines:stone_pressure_plates"
-    },
-    "B": {
-      "tag": "c:ingots/iron"
-    },
-    "C": {
-      "tag": "c:ender_pearls"
-    }
+    "A": "#landmines:stone_pressure_plates",
+    "B": "#c:ingots/iron",
+    "C": "#c:ender_pearls"
   },
   "result": {
     "id": "landmines:teleport_landmine"
