@@ -25,7 +25,7 @@ public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlock
         if(entity.getState() != LandmineBlockEntity.LandmineState.UNARMED)
             state = state.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
         BakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, model, 0, 0, 0, combinedLight, combinedOverlay);
+        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state)), state, model, 0, 0, 0, combinedLight, combinedOverlay);
 
         poseStack.popPose();
     }

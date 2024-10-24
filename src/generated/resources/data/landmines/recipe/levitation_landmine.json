@@ -6,21 +6,11 @@
     "DED"
   ],
   "key": {
-    "A": {
-      "tag": "landmines:stone_pressure_plates"
-    },
-    "B": {
-      "tag": "c:ingots/iron"
-    },
-    "C": {
-      "item": "minecraft:dispenser"
-    },
-    "D": {
-      "tag": "c:dusts/redstone"
-    },
-    "E": {
-      "item": "minecraft:shulker_shell"
-    }
+    "A": "#landmines:stone_pressure_plates",
+    "B": "#c:ingots/iron",
+    "C": "minecraft:dispenser",
+    "D": "#c:dusts/redstone",
+    "E": "minecraft:shulker_shell"
   },
   "result": {
     "id": "landmines:levitation_landmine"
