@@ -5,15 +5,9 @@
     "BCB"
   ],
   "key": {
-    "A": {
-      "tag": "landmines:stone_pressure_plates"
-    },
-    "B": {
-      "tag": "forge:ingots/iron"
-    },
-    "C": {
-      "tag": "forge:netherrack"
-    }
+    "A": "#landmines:stone_pressure_plates",
+    "B": "#c:ingots/iron",
+    "C": "#forge:netherrack"
   },
   "result": {
     "id": "landmines:fire_landmine"

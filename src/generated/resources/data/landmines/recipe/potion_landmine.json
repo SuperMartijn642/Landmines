@@ -6,18 +6,10 @@
     "DDD"
   ],
   "key": {
-    "A": {
-      "tag": "landmines:stone_pressure_plates"
-    },
-    "B": {
-      "tag": "forge:ingots/iron"
-    },
-    "C": {
-      "tag": "forge:dusts/redstone"
-    },
-    "D": {
-      "item": "minecraft:glass_bottle"
-    }
+    "A": "#landmines:stone_pressure_plates",
+    "B": "#c:ingots/iron",
+    "C": "#c:dusts/redstone",
+    "D": "minecraft:glass_bottle"
   },
   "result": {
     "id": "landmines:potion_landmine"
