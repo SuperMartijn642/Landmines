@@ -41,6 +41,7 @@ public class Landmines implements ModInitializer {
         GeneratorRegistrationHandler handler = GeneratorRegistrationHandler.get("landmines");
         handler.addGenerator(LandmineModelGenerator::new);
         handler.addGenerator(LandmineBlockStateGenerator::new);
+        handler.addGenerator(LandmineItemInfoGenerator::new);
         handler.addGenerator(LandmineLanguageGenerator::new);
         handler.addGenerator(LandmineLootTableGenerator::new);
         handler.addGenerator(LandmineRecipeGenerator::new);
