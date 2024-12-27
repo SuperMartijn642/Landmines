@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "landmines:block/types/teleport_landmine_on",
+    "type": "minecraft:model"
+  }
+}

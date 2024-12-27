@@ -19,8 +19,6 @@ public class LandmineModelGenerator extends ModelGenerator {
             // Block models
             this.model("block/types/" + type.getSuffix() + "_landmine_off").parent("block/landmine").texture("type", "block/types/" + type.getSuffix() + "_landmine_off");
             this.model("block/types/" + type.getSuffix() + "_landmine_on").parent("block/landmine").texture("type", "block/types/" + type.getSuffix() + "_landmine_on");
-            // Item model
-            this.model("item/" + type.getSuffix() + "_landmine").parent("block/types/" + type.getSuffix() + "_landmine_on");
         }
     }
 }
