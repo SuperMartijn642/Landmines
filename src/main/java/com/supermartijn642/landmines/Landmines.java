@@ -1,5 +1,6 @@
 package com.supermartijn642.landmines;
 
+import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.item.CreativeItemGroup;
 import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
 import com.supermartijn642.core.registry.RegistrationHandler;
@@ -7,8 +8,6 @@ import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import com.supermartijn642.landmines.generators.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 /**
@@ -24,7 +23,8 @@ public class Landmines {
 
     public Landmines(){
         register();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> LandminesClient::register);
+        if(CommonUtils.getEnvironmentSide().isClient())
+            LandminesClient.register();
         registerGenerators();
     }
 
@@ -44,6 +44,7 @@ public class Landmines {
         GeneratorRegistrationHandler handler = GeneratorRegistrationHandler.get("landmines");
         handler.addGenerator(LandmineModelGenerator::new);
         handler.addGenerator(LandmineBlockStateGenerator::new);
+        handler.addGenerator(LandmineItemInfoGenerator::new);
         handler.addGenerator(LandmineLanguageGenerator::new);
         handler.addGenerator(LandmineLootTableGenerator::new);
         handler.addGenerator(LandmineRecipeGenerator::new);

@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "landmines:block/types/fake_landmine_on",
+    "type": "minecraft:model"
+  }
+}
