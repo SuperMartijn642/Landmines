@@ -5,7 +5,8 @@ import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -24,8 +25,8 @@ public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlock
         BlockState state = entity.getRenderBlockState();
         if(entity.getState() != LandmineBlockEntity.LandmineState.UNARMED)
             state = state.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
-        BakedModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ClientUtils.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state)), state, model, 0, 0, 0, combinedLight, combinedOverlay);
+        BlockStateModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
+        ModelBlockRenderer.renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state)), model, 0, 0, 0, combinedLight, combinedOverlay);
 
         poseStack.popPose();
     }

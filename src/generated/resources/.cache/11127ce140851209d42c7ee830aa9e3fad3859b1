@@ -79,4 +79,4 @@ aa612701885548b113b2f85bec8fb40e7cb6a913 data/landmines/recipe/potion_landmine.j
 15e5b49cada8bdc6586de5ff374436ac22faec43 data/landmines/recipe/teleport_landmine.json
 5c2524b22828b5d34921974b4c7a296923b1fa79 data/landmines/recipe/zombie_landmine.json
 7e722dcbfb719f52aa38f9a286fbbcc18fce67aa data/landmines/tags/item/stone_pressure_plates.json
-959985aa3f03ca595e67cf9e3ba41d62a0f65d61 data/minecraft/tags/block/mineable/pickaxe.json
+b649d51211f7460969edf96db828e72ca3e33760 data/minecraft/tags/block/mineable/pickaxe.json
