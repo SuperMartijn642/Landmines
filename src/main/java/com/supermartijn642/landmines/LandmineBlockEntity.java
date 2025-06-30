@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -113,6 +114,12 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
         this.setChanged();
     }
 
+    @Override
+    public void preRemoveSideEffects(BlockPos blockPos, BlockState blockState){
+        super.preRemoveSideEffects(blockPos, blockState);
+        Containers.dropItemStack(this.level, this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), this.stack);
+    }
+
     public boolean hasShape(){
         return this.state == LandmineState.UNARMED;
     }
@@ -130,10 +137,6 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
             .setValue(LandmineBlock.ON, this.state == LandmineState.UNARMED && (this.type.itemFilter == null || !this.stack.isEmpty()));
     }
 
-    public ItemStack getStack(){
-        return this.stack;
-    }
-
     @Override
     protected CompoundTag writeData(){
         CompoundTag compound = new CompoundTag();
@@ -141,19 +144,20 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
         compound.putInt("lastState", this.lastState.index);
         compound.putBoolean("collision", this.collision);
         compound.putInt("cooldown", this.cooldown);
-        compound.put("stack", this.stack.saveOptional(this.level.registryAccess()));
+        if(!this.stack.isEmpty())
+            compound.put("stack", this.stack.save(this.level.registryAccess()));
         compound.putInt("renderTransitionTicks", this.renderTransitionTicks);
         return compound;
     }
 
     @Override
     protected void readData(CompoundTag compound){
-        this.state = LandmineState.fromIndex(compound.getInt("state"));
-        this.lastState = LandmineState.fromIndex(compound.getInt("lastState"));
-        this.collision = compound.getBoolean("collision");
-        this.cooldown = compound.getInt("cooldown");
-        this.stack = ItemStack.parseOptional(CommonUtils.getRegistryAccess(), compound.getCompound("stack"));
-        this.renderTransitionTicks = compound.getInt("renderTransitionTicks");
+        this.state = LandmineState.fromIndex(compound.getIntOr("state", 0));
+        this.lastState = LandmineState.fromIndex(compound.getIntOr("lastState", 0));
+        this.collision = compound.getBooleanOr("collision", false);
+        this.cooldown = compound.getIntOr("cooldown", 0);
+        this.stack = compound.getCompound("stack").flatMap(t -> ItemStack.parse(CommonUtils.getRegistryAccess(), t)).orElse(ItemStack.EMPTY);
+        this.renderTransitionTicks = compound.getIntOr("renderTransitionTicks", 0);
     }
 
     public enum LandmineState {
