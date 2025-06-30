@@ -1,4 +1,4 @@
-// 1.21.4	2024-12-27T18:01:36.7686394	Core Lib Generators
+// 1.21.5	2025-06-30T21:36:17.466799	Core Lib Generators
 64ec5ec0fb44118c0c560fa40fcf23d4b39d8e49 assets/landmines/blockstates/arrows_landmine.json
 82d1a754a999af31c7f3db495f76b713c1f9d0ff assets/landmines/blockstates/explosive_landmine.json
 7933870bf005e30a2449d9056731b125c3c73c68 assets/landmines/blockstates/fake_landmine.json
@@ -78,5 +78,5 @@ aa612701885548b113b2f85bec8fb40e7cb6a913 data/landmines/recipe/potion_landmine.j
 4cf3e82be921d6665eef9d9c1d6bb2a9181dfcf0 data/landmines/recipe/snow_landmine.json
 a49dabe260237947fddd7b547db48f25876d1211 data/landmines/recipe/teleport_landmine.json
 5c2524b22828b5d34921974b4c7a296923b1fa79 data/landmines/recipe/zombie_landmine.json
-cdb93f4db808c9b074e2962b15eed1349467899a data/landmines/tags/item/stone_pressure_plates.json
-d1a8750e74fa3520074a30f2ed1fca879e1aad94 data/minecraft/tags/block/mineable/pickaxe.json
+7e722dcbfb719f52aa38f9a286fbbcc18fce67aa data/landmines/tags/item/stone_pressure_plates.json
+3b91a3fc2e83636cc85699179eb299ebb32be863 data/minecraft/tags/block/mineable/pickaxe.json

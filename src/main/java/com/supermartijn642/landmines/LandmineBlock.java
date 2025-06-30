@@ -10,9 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -96,7 +96,7 @@ public class LandmineBlock extends BaseBlock implements EntityHoldingBlock, Simp
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity){
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof LandmineBlockEntity)
             ((LandmineBlockEntity)blockEntity).onEntityCollide(entity);
@@ -111,17 +111,6 @@ public class LandmineBlock extends BaseBlock implements EntityHoldingBlock, Simp
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean p_196243_5_){
-        if(!state.is(newState.getBlock())){
-            BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof LandmineBlockEntity)
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ((LandmineBlockEntity)entity).getStack());
-
-            super.onRemove(state, level, pos, newState, p_196243_5_);
-        }
-    }
-
-    @Override
     public RenderShape getRenderShape(BlockState state){
         return RenderShape.INVISIBLE;
     }
@@ -132,7 +121,7 @@ public class LandmineBlock extends BaseBlock implements EntityHoldingBlock, Simp
     }
 
     @Override
-    protected void appendItemInformation(ItemStack stack, Consumer<Component> info, boolean advanced){
+    public void appendItemInformation(ItemStack stack, Consumer<Component> info, boolean advanced){
         info.accept(TextComponents.translation("landmines." + this.type.getSuffix() + ".info").color(ChatFormatting.GRAY).get());
         if(this.type.itemFilter != null && this.type.tooltipItem != null)
             info.accept(TextComponents.translation("landmines.info.item", TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
