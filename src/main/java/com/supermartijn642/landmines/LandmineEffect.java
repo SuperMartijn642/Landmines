@@ -38,12 +38,12 @@ public interface LandmineEffect {
     };
 
     LandmineEffect EXPLOSION = (level, pos, stack) -> {
-        if(!level.isClientSide)
+        if(!level.isClientSide())
             level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, LandminesConfig.explosionCausesFire.get(), LandminesConfig.explosionBreakBlocks.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
     };
 
     LandmineEffect POTION = (level, pos, stack) -> {
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
             if(contents.is(Potions.WATER)){ // water potion
                 AABB area = new AABB(pos).inflate(4, 2, 4);
@@ -105,7 +105,7 @@ public interface LandmineEffect {
     };
 
     LandmineEffect TELEPORT = (level, pos, stack) -> {
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             double range = LandminesConfig.teleportRange.get();
             level.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(0.7))
                 .forEach(entity -> {
@@ -140,7 +140,7 @@ public interface LandmineEffect {
     };
 
     LandmineEffect SNOW = (level, pos, stack) -> {
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             int maxRange = LandminesConfig.snowRange.get();
             for(int x = -maxRange; x <= maxRange; x++){
                 for(int y = 1; y >= -1; y--){
@@ -164,7 +164,7 @@ public interface LandmineEffect {
     };
 
     LandmineEffect ZOMBIE = (level, pos, stack) -> {
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             int spawnRange = LandminesConfig.zombieRange.get();
             int spawns = 0, targetSpawns = LandminesConfig.zombieCount.get();
             for(int attempts = 0; attempts < Math.max(20, targetSpawns * 3); attempts++){
@@ -195,12 +195,12 @@ public interface LandmineEffect {
     };
 
     LandmineEffect LIGHTNING = (level, pos, stack) -> {
-        if(!level.isClientSide)
+        if(!level.isClientSide())
             EntityType.LIGHTNING_BOLT.spawn((ServerLevel)level, null, null, pos, EntitySpawnReason.TRIGGERED, true, false);
     };
 
     LandmineEffect ARROWS = (level, pos, stack) -> {
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             int arrows = LandminesConfig.arrowsCount.get();
             for(int i = 0; i < arrows; i++){
                 double angle = Math.PI * 2 / arrows * i;

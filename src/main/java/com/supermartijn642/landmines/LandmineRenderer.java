@@ -4,29 +4,51 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Created 7/9/2021 by SuperMartijn642
  */
-public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlockEntity> {
+public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlockEntity,LandmineRenderer.State> {
 
     private static final int TRANSITION_TIME = 10;
     private static final int BLINK_TIME = 8;
 
     @Override
-    public void render(LandmineBlockEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay){
-        poseStack.pushPose();
-        poseStack.translate(0, getRenderOffset(entity, partialTicks), 0);
+    public State createStateHolder(){
+        return new State();
+    }
 
-        BlockState state = entity.getRenderBlockState();
+    @Override
+    public void updateState(State state, LandmineBlockEntity entity, UpdateContext context){
+        BlockState visualState = entity.getRenderBlockState();
         if(entity.getState() != LandmineBlockEntity.LandmineState.UNARMED)
-            state = state.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
-        BlockStateModel model = ClientUtils.getBlockRenderer().getBlockModel(state);
-        ModelBlockRenderer.renderModel(poseStack.last(), bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state)), model, 0, 0, 0, combinedLight, combinedOverlay);
+            visualState = visualState.setValue(LandmineBlock.ON, (entity.renderTransitionTicks / BLINK_TIME) % 2 == 0);
+        state.visualState = visualState;
+        state.tint = ClientUtils.getMinecraft().getBlockColors().getColor(visualState, entity.getLevel(), entity.getBlockPos());
+        state.offset = getRenderOffset(entity, context.partialTicks());
+    }
+
+    @Override
+    public void submit(SubmitNodeCollector output, State state, RenderContext context){
+        PoseStack poseStack = context.poseStack();
+        poseStack.pushPose();
+        poseStack.translate(0, state.offset, 0);
+
+        ModelFeatureRenderer.CrumblingOverlay breakingOverlay = context.breakingOverlay();
+        output.submitBlockModel(
+            poseStack,
+            ItemBlockRenderTypes.getRenderType(state.visualState),
+            ClientUtils.getBlockRenderer().getBlockModel(state.visualState),
+            ARGB.red(state.tint), ARGB.green(state.tint), ARGB.red(state.tint),
+            context.packedLight(),
+            breakingOverlay == null ? OverlayTexture.NO_OVERLAY : breakingOverlay.progress(),
+            0
+        );
 
         poseStack.popPose();
     }
@@ -41,5 +63,11 @@ public class LandmineRenderer implements CustomBlockEntityRenderer<LandmineBlock
         return state == LandmineBlockEntity.LandmineState.UNARMED ? 0 :
             state == LandmineBlockEntity.LandmineState.ARMED ? -0.125 :
                 state == LandmineBlockEntity.LandmineState.TRIGGERED ? 0 : 0;
+    }
+
+    public static class State {
+        BlockState visualState;
+        int tint;
+        double offset;
     }
 }
