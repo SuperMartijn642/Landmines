@@ -58,7 +58,7 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
                         this.cooldown = LandminesConfig.activationDelay.get();
                         this.dataChanged();
                         return true;
-                    }else if(this.type.tooltipItem != null && !this.level.isClientSide)
+                    }else if(this.type.tooltipItem != null && !this.level.isClientSide())
                         player.displayClientMessage(TextComponents.translation("landmines.require_item", TextComponents.block(this.type.getBlock()).get(), TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.YELLOW).get(), true);
                 }else if(!this.stack.isEmpty()){
                     player.setItemInHand(hand, this.stack);

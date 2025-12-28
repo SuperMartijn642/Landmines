@@ -96,7 +96,7 @@ public class LandmineBlock extends BaseBlock implements EntityHoldingBlock, Simp
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier){
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean bl){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof LandmineBlockEntity)
             ((LandmineBlockEntity)blockEntity).onEntityCollide(entity);
