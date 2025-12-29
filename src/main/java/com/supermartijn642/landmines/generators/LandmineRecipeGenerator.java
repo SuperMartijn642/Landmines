@@ -3,7 +3,7 @@ package com.supermartijn642.landmines.generators;
 import com.supermartijn642.core.generator.RecipeGenerator;
 import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.landmines.LandmineType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,7 +22,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
     @Override
     public void generate(){
         // Pressure plates tag
-        TagKey<Item> pressurePlates = ItemTags.create(ResourceLocation.fromNamespaceAndPath("landmines", "stone_pressure_plates"));
+        TagKey<Item> pressurePlates = ItemTags.create(Identifier.fromNamespaceAndPath("landmines", "stone_pressure_plates"));
 
         // Explosion
         this.shaped(LandmineType.EXPLOSIVE.getItem())
