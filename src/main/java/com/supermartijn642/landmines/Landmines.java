@@ -6,7 +6,7 @@ import com.supermartijn642.core.registry.RegistrationHandler;
 import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import com.supermartijn642.landmines.generators.*;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 /**
@@ -34,7 +34,7 @@ public class Landmines implements ModInitializer {
             handler.registerItemCallback(type::registerItem);
         }
         // Trigger sound
-        handler.registerSoundEvent("trigger_sound", SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath("landmines", "trigger_sound")));
+        handler.registerSoundEvent("trigger_sound", SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath("landmines", "trigger_sound")));
     }
 
     private static void registerGenerators(){
