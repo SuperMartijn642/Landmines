@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "landmines:lightning_landmine"
+      "id": "landmines:snow_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/lightning_landmine.title"
+      "translate": "landmines.advancement.recipes/snow_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/lightning_landmine.description"
+      "translate": "landmines.advancement.recipes/snow_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:lightning_landmine"
+        "recipe": "landmines:snow_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:end_rod"
+            "items": "minecraft:ice"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:lightning_landmine"
+      "landmines:snow_landmine"
     ]
   }
 }

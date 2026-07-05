@@ -57,7 +57,7 @@ public class LandmineBlockEntity extends BaseBlockEntity implements TickableBloc
                         this.dataChanged();
                         return true;
                     }else if(this.type.tooltipItem != null && !this.level.isClientSide())
-                        player.displayClientMessage(TextComponents.translation("landmines.require_item", TextComponents.block(this.type.getBlock()).get(), TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.YELLOW).get(), true);
+                        player.sendOverlayMessage(TextComponents.translation("landmines.require_item", TextComponents.block(this.type.getBlock()).get(), TextComponents.item(this.type.tooltipItem).color(ChatFormatting.GOLD).get()).color(ChatFormatting.YELLOW).get());
                 }else if(!this.stack.isEmpty()){
                     player.setItemInHand(hand, this.stack);
                     this.stack = ItemStack.EMPTY;
