@@ -78,8 +78,8 @@ public interface LandmineEffect {
 
                                 for(MobEffectInstance effectInstance : mobEffects){
                                     MobEffect effect = effectInstance.getEffect().value();
-                                    if(effect.isInstantenous())
-                                        effect.applyInstantenousEffect(null, null, null, entity, effectInstance.getAmplifier(), closenessFactor);
+                                    if(effect.isInstantaneous())
+                                        effect.applyInstantaneousEffect((ServerLevel)level, null, null, entity, effectInstance.getAmplifier(), closenessFactor);
                                     else{
                                         int duration = effectInstance.mapDuration(i -> (int)(closenessFactor * i + 0.5));
                                         MobEffectInstance newEffect = new MobEffectInstance(effectInstance.getEffect(), duration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible());
@@ -175,7 +175,7 @@ public interface LandmineEffect {
                 if(!level.getBlockState(spawnPos.below()).getCollisionShape(level, spawnPos.below()).isEmpty() &&
                     level.getBlockState(spawnPos).getCollisionShape(level, spawnPos).isEmpty() &&
                     level.getBlockState(spawnPos.above()).getCollisionShape(level, spawnPos.above()).isEmpty()){
-                    Entity zombie = EntityType.ZOMBIE.spawn((ServerLevel)level, (ItemStack)null, null, spawnPos, EntitySpawnReason.TRIGGERED, true, false);
+                    Entity zombie = EntityTypes.ZOMBIE.spawn((ServerLevel)level, (ItemStack)null, null, spawnPos, EntitySpawnReason.TRIGGERED, true, false);
                     if(zombie != null){
                         spawns++;
                         if(spawns == targetSpawns)
@@ -196,7 +196,7 @@ public interface LandmineEffect {
 
     LandmineEffect LIGHTNING = (level, pos, stack) -> {
         if(!level.isClientSide())
-            EntityType.LIGHTNING_BOLT.spawn((ServerLevel)level, null, null, pos, EntitySpawnReason.TRIGGERED, true, false);
+            EntityTypes.LIGHTNING_BOLT.spawn((ServerLevel)level, null, null, pos, EntitySpawnReason.TRIGGERED, true, false);
     };
 
     LandmineEffect ARROWS = (level, pos, stack) -> {
