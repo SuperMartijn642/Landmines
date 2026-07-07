@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "landmines:zombie_landmine"
+      "id": "landmines:explosive_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/zombie_landmine.title"
+      "translate": "landmines.advancement.recipes/explosive_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/zombie_landmine.description"
+      "translate": "landmines.advancement.recipes/explosive_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:zombie_landmine"
+        "recipe": "landmines:explosive_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:rotten_flesh"
+            "items": "minecraft:tnt"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:zombie_landmine"
+      "landmines:explosive_landmine"
     ]
   }
 }

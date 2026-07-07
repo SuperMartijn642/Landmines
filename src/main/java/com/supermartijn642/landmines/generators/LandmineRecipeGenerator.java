@@ -51,7 +51,7 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("DED")
             .input('A', pressurePlates)
             .input('B', Tags.Items.INGOTS_IRON)
-            .input('C', Items.SLIME_BLOCK)
+            .input('C', Tags.Items.STORAGE_BLOCKS_SLIME)
             .input('D', Tags.Items.DUSTS_REDSTONE)
             .input('E', Items.PISTON)
             .unlockedBy(Tags.Items.DUSTS_REDSTONE);
@@ -71,8 +71,8 @@ public class LandmineRecipeGenerator extends RecipeGenerator {
             .pattern("BCB")
             .input('A', pressurePlates)
             .input('B', Tags.Items.INGOTS_IRON)
-            .input('C', Tags.Items.NETHERRACK)
-            .unlockedBy(Tags.Items.NETHERRACK);
+            .input('C', Tags.Items.NETHERRACKS)
+            .unlockedBy(Tags.Items.NETHERRACKS);
 
         // Snow
         this.shaped(LandmineType.SNOW.getItem())

@@ -8,7 +8,7 @@
   "key": {
     "A": "#landmines:stone_pressure_plates",
     "B": "#c:ingots/iron",
-    "C": "minecraft:slime_block",
+    "C": "#c:storage_blocks/slime",
     "D": "#c:dusts/redstone",
     "E": "minecraft:piston"
   },

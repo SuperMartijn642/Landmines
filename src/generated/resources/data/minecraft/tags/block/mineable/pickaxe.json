@@ -1,16 +1,16 @@
 {
   "replace": false,
   "values": [
-    "landmines:potion_landmine",
-    "landmines:levitation_landmine",
-    "landmines:teleport_landmine",
+    "landmines:arrows_landmine",
     "landmines:explosive_landmine",
-    "landmines:lightning_landmine",
-    "landmines:launch_landmine",
-    "landmines:snow_landmine",
-    "landmines:zombie_landmine",
-    "landmines:fire_landmine",
     "landmines:fake_landmine",
-    "landmines:arrows_landmine"
+    "landmines:fire_landmine",
+    "landmines:launch_landmine",
+    "landmines:levitation_landmine",
+    "landmines:lightning_landmine",
+    "landmines:potion_landmine",
+    "landmines:snow_landmine",
+    "landmines:teleport_landmine",
+    "landmines:zombie_landmine"
   ]
 }

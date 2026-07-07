@@ -7,7 +7,7 @@
   "key": {
     "A": "#landmines:stone_pressure_plates",
     "B": "#c:ingots/iron",
-    "C": "#forge:netherrack"
+    "C": "#c:netherracks"
   },
   "result": {
     "id": "landmines:fire_landmine"
