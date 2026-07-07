@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "landmines:teleport_landmine"
+      "id": "landmines:lightning_landmine"
     },
     "title": {
-      "translate": "landmines.advancement.recipes/misc/teleport_landmine.title"
+      "translate": "landmines.advancement.recipes/lightning_landmine.title"
     },
     "description": {
-      "translate": "landmines.advancement.recipes/misc/teleport_landmine.description"
+      "translate": "landmines.advancement.recipes/lightning_landmine.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:teleport_landmine"
+        "recipe": "landmines:lightning_landmine"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:ender_pearls"
+            "items": "minecraft:end_rod"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "landmines:teleport_landmine"
+      "landmines:lightning_landmine"
     ]
   }
 }
