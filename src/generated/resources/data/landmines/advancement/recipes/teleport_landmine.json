@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:teleport_landmine"
+        "recipes": "landmines:teleport_landmine"
       }
     },
     "recipe_condition": {

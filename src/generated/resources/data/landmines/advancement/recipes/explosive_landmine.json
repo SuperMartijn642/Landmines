@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "landmines:explosive_landmine"
+        "recipes": "landmines:explosive_landmine"
       }
     },
     "recipe_condition": {
