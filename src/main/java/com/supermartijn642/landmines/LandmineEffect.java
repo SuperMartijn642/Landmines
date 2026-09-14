@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -120,7 +121,7 @@ public interface LandmineEffect {
                         if(entity.isPassenger())
                             entity.stopRiding();
 
-                        if(entity.randomTeleport(teleportX, teleportY, teleportZ, true)){
+                        if(entity.randomTeleport(teleportX, teleportY, teleportZ, true, BlockTags.CONSUMABLE_DOES_NOT_TELEPORT_TO, stack)){
                             SoundEvent soundEvent = entity instanceof Fox ? SoundEvents.FOX_TELEPORT : SoundEvents.CHORUS_FRUIT_TELEPORT;
                             level.playSound(null, entityX, entityY, entityZ, soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F);
                             entity.playSound(soundEvent, 1.0F, 1.0F);
